@@ -1,0 +1,134 @@
+{
+
+  "type": "object",
+  "properties": {
+    "games": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "pgn": {
+            "type": "string"
+          },
+          "time_control": {
+            "type": "string"
+          },
+          "end_time": {
+            "type": "number"
+          },
+          "rated": {
+            "type": "boolean"
+          },
+          "tcn": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "initial_setup": {
+            "type": "string"
+          },
+          "fen": {
+            "type": "string"
+          },
+          "time_class": {
+            "type": "string"
+          },
+          "rules": {
+            "type": "string"
+          },
+          "white": {
+            "type": "object",
+            "properties": {
+              "rating": {
+                "type": "number"
+              },
+              "result": {
+                "type": "string"
+              },
+              "@id": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "uuid": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "rating",
+              "result",
+              "@id",
+              "username",
+              "uuid"
+            ]
+          },
+          "black": {
+            "type": "object",
+            "properties": {
+              "rating": {
+                "type": "number"
+              },
+              "result": {
+                "type": "string"
+              },
+              "@id": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "uuid": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "rating",
+              "result",
+              "@id",
+              "username",
+              "uuid"
+            ]
+          },
+          "accuracies": {
+            "type": "object",
+            "properties": {
+              "white": {
+                "type": "number"
+              },
+              "black": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "white",
+              "black"
+            ]
+          }
+        },
+        "required": [
+          "url",
+          "pgn",
+          "time_control",
+          "end_time",
+          "rated",
+          "tcn",
+          "uuid",
+          "initial_setup",
+          "fen",
+          "time_class",
+          "rules",
+          "white",
+          "black"
+        ]
+      }
+    }
+  },
+  "required": [
+    "games"
+  ]
+}
