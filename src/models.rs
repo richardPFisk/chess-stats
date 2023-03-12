@@ -8,6 +8,7 @@ use chesscom_openapi::models::PlayerResult;
 use chrono;
 
 use regex::Regex;
+use serde::Deserializer;
 use serde::{Deserialize, Serialize};
 use std::option::Option as StdOption;
 
@@ -50,11 +51,19 @@ pub struct CompletedGame {
     #[serde(rename = "match", skip_serializing_if = "Option::is_none")]
     pub _match: Option<String>,
     pub accuracies: Option<Accuracies>,
-    #[serde(skip)]
+    #[serde(alias = "pgn")]
+    // #[serde(deserialize_with = "from_pgn")]
     pub opening: Option<String>,
 }
-
-fn opening(input: &str) -> Option<&str> {
+// fn from_pgn<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+// where
+//     D: Deserializer<'de>,
+// {
+//     let s: &str = Deserialize::deserialize(deserializer)?;
+//     // do better hex decoding than this
+//     Ok(opening(s))
+// }
+fn opening(input: &str) -> Option<String> {
     let re = Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap();
 
     let captures = re.captures_iter(input);
@@ -62,7 +71,7 @@ fn opening(input: &str) -> Option<&str> {
     first.as_ref().map_or(None, |c| {
         let x = c.name("opening");
         println!("{:#?}", x);
-        x.map_or(None, |m| Some(m.as_str()))
+        x.map_or(None, |m| Some(m.as_str().to_owned()))
     })
 }
 
@@ -115,7 +124,7 @@ mod tests {
     fn test_opening() {
         let game: CompletedGame = serde_json::from_str(game_str).unwrap();
         let o = opening(&game.pgn);
-        assert_eq!(Some("Ruy-Lopez-Opening-Old-Steinitz-Defense"), o);
+        assert_eq!(Some("Ruy-Lopez-Opening-Old-Steinitz-Defense".to_owned()), o);
     }
 
     #[test]
