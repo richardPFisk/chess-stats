@@ -52,15 +52,15 @@ pub struct CompletedGame {
     pub accuracies: Option<Accuracies>,
 }
 
-fn opening(input: &str) -> Option<String> {
+pub fn opening(input: &str) -> Option<String> {
     let re = Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap();
 
     let captures = re.captures_iter(input);
     let first = &captures.into_iter().next();
+    
     first.as_ref().map_or(None, |c| {
-        let x = c.name("opening");
-        println!("{:#?}", x);
-        x.map_or(None, |m| Some(m.as_str().to_owned()))
+        c.name("opening")
+            .map_or(None, |m| Some(m.as_str().to_owned()))
     })
 }
 
