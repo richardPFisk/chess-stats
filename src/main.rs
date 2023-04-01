@@ -1,7 +1,7 @@
 // #[macro_use]
 // extern crate serde_derive;
 
-use crate::apis::get_games;
+use crate::{apis::get_games, game_storage::write_game};
 
 // extern crate serde;
 // extern crate serde_json;
@@ -10,12 +10,24 @@ use crate::apis::get_games;
 pub mod apis;
 pub mod date_iter;
 pub mod features;
+pub mod game_storage;
 pub mod models;
+
+fn get_all_games() {}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // let p = get_profile("richardfisk").await?;
-    let g = get_games("richardfisk").await?;
-    println!("{:#?}", g.games.into_iter().next_back());
+    let gs = get_games("richardfisk").await?;
+    println!("length{}", gs.len());
+    let game_option = gs.into_iter().next_back();
+    match game_option {
+        Some(game) => {
+            println!("{:#?}", game.games.clone());
+            write_game(1, 2004, game.games.into_iter().next_back().unwrap().clone())?;
+        },
+        _ => println!("No game. Game over.")
+    }
+    
     Ok(())
 }

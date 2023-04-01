@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 chesscom-openapi = "0.1.1"
 chrono = "0.4.23"
+futures = "0.3.28"
 linfa = { version = "0.6.1", features = ["serde", "serde_crate"] }
 linfa-trees = { version = "0.6.1", features = ["serde", "serde_crate"] }
 regex = "1.7.1"

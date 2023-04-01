@@ -7,10 +7,12 @@ use chesscom_openapi::{
     models::PlayerStats,
 };
 
-use chrono::{Duration, Utc};
-use std::option::Option;
+use chrono::{Duration, Utc, DateTime};
+use futures::{stream::FuturesUnordered, StreamExt};
 
-use crate::models::Games;
+use std::{option::Option, str::FromStr};
+
+use crate::{models::Games, date_iter::get_all_month_years_from_now};
 use serde_json::json;
 pub async fn get_chess_games_for_month_local(
     configuration: &configuration::Configuration,
@@ -58,9 +60,20 @@ pub async fn get_chess_games_for_month_local(
     }
 }
 
-pub async fn get_games(username: &str) -> Result<Games, Box<dyn std::error::Error>> {
+pub async fn get_games(username: &str) -> Result<Vec<Games>, Box<dyn std::error::Error>> {
     let conf = chesscom_openapi::apis::configuration::Configuration::default();
-    let games = get_chess_games_for_month_local(&conf, &username, "2023", "03").await?;
+    let first_game_str = "2022-03-18T23:59:60.234567+05:00";
+    let first_game_date = DateTime::<Utc>::from_str(first_game_str)?;
+    let dates = get_all_month_years_from_now(first_game_date, None);
+
+    let all_game_futures = dates.iter().fold(vec![], |mut all_games, (month, year)| {
+        let games = get_chess_games_for_month_local(&conf, &username, "2023", "03");
+        all_games.push(games);
+        all_games
+    });
+    let games_futures = FuturesUnordered::from_iter(all_game_futures);
+    let x = games_futures.collect::<Vec<_>>().await;
+    let games: Vec<Games> = x.into_iter().collect::<Result<Vec<Games>, chesscom_openapi::apis::Error<ApiError>>>()?;
 
     Ok(games)
 }

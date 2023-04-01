@@ -66,6 +66,7 @@ mod tests {
         let str = "2022-03-18T23:59:60.234567+05:00";
         let past_date = DateTime::<Utc>::from_str(str).unwrap();
         let m_y = get_all_month_years_from_now(past_date, Some(now_date));
+
         assert_eq!(
             m_y,
             [
