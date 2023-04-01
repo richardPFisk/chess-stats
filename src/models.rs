@@ -52,18 +52,6 @@ pub struct CompletedGame {
     pub accuracies: Option<Accuracies>,
 }
 
-pub fn opening(input: &str) -> Option<String> {
-    let re = Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap();
-
-    let captures = re.captures_iter(input);
-    let first = &captures.into_iter().next();
-    
-    first.as_ref().map_or(None, |c| {
-        c.name("opening")
-            .map_or(None, |m| Some(m.as_str().to_owned()))
-    })
-}
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Accuracies {
