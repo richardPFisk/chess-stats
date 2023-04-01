@@ -8,8 +8,9 @@ use crate::apis::get_games;
 // extern crate url;
 // extern crate reqwest;
 pub mod apis;
-pub mod models;
+pub mod date_iter;
 pub mod features;
+pub mod models;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

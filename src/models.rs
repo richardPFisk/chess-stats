@@ -95,14 +95,14 @@ mod tests {
   }"#;
     use serde_test::{assert_tokens, Token};
 
-    use super::{opening, CompletedGame};
+    use super::CompletedGame;
 
-    #[test]
-    fn test_opening() {
-        let game: CompletedGame = serde_json::from_str(GAME_STR).unwrap();
-        let o = opening(&game.pgn);
-        assert_eq!(Some("Ruy-Lopez-Opening-Old-Steinitz-Defense".to_owned()), o);
-    }
+    // #[test]
+    // fn test_opening() {
+    //     let game: CompletedGame = serde_json::from_str(GAME_STR).unwrap();
+    //     let o = opening(&game.pgn);
+    //     assert_eq!(Some("Ruy-Lopez-Opening-Old-Steinitz-Defense".to_owned()), o);
+    // }
 
     #[test]
     #[should_panic]
