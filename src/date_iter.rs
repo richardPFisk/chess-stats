@@ -1,4 +1,4 @@
-use chrono::{DateTime, Datelike, Duration, Months, NaiveDate, TimeZone, Utc, format, Days};
+use chrono::{format, DateTime, Datelike, Days, Duration, Months, NaiveDate, TimeZone, Utc};
 
 pub struct MonthIter<T: TimeZone> {
     start: DateTime<T>,
@@ -41,7 +41,8 @@ pub fn get_all_month_years_from_now<'a>(
     earliest_date_time: DateTime<Utc>,
     latest_date_time_option: Option<DateTime<Utc>>,
 ) -> Vec<(String, String)> {
-    let latest_date_time = latest_date_time_option.unwrap_or(Utc::now().checked_sub_months(Months::new(1)).unwrap());
+    let latest_date_time =
+        latest_date_time_option.unwrap_or(Utc::now().checked_sub_months(Months::new(1)).unwrap());
 
     let month_iter = MonthIter::new(earliest_date_time, latest_date_time);
     month_iter
@@ -49,7 +50,7 @@ pub fn get_all_month_years_from_now<'a>(
         .fold(vec![], |mut month_years, date| {
             let month_str = date.format("%m");
             let year_str = date.format("%Y");
-            month_years.push((month_str.to_string(),year_str.to_string()));
+            month_years.push((month_str.to_string(), year_str.to_string()));
             month_years
         })
 }
