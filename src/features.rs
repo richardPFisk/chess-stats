@@ -22,8 +22,7 @@ fn _opening(input: &str) -> Option<String> {
     let captures = re.captures_iter(input);
     let first = &captures.into_iter().next();
 
-    first.as_ref().map_or(None, |c| {
-        c.name("opening")
-            .map_or(None, |m| Some(m.as_str().to_owned()))
+    first.as_ref().and_then(|c| {
+        c.name("opening").map(|m| m.as_str().to_owned())
     })
 }

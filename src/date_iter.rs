@@ -1,4 +1,4 @@
-use chrono::{format, DateTime, Datelike, Days, Duration, Months, NaiveDate, TimeZone, Utc};
+use chrono::{DateTime, Months, TimeZone, Utc};
 
 pub struct MonthIter<T: TimeZone> {
     start: DateTime<T>,
@@ -11,8 +11,8 @@ where
 {
     pub fn new(start: DateTime<T>, end: DateTime<T>) -> MonthIter<T> {
         MonthIter {
-            start: start,
-            end: end,
+            start,
+            end,
         }
     }
 }
@@ -29,7 +29,7 @@ where
             match self.start.clone().checked_add_months(Months::new(1)) {
                 Some(d) => {
                     self.start = d.clone();
-                    Some(d.clone())
+                    Some(d)
                 }
                 _ => None,
             }

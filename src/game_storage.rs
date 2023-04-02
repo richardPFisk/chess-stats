@@ -7,9 +7,7 @@ use crate::models::CompletedGame;
 
 pub fn write_games(games: Vec<CompletedGame>) -> Result<(), Box<dyn std::error::Error>> {
     let month = games
-        .clone()
-        .iter()
-        .next()
+        .first()
         .map(|g_unwrapped| {
             let dt = g_unwrapped.end_time;
             dt.month()
@@ -17,9 +15,7 @@ pub fn write_games(games: Vec<CompletedGame>) -> Result<(), Box<dyn std::error::
         .unwrap_or(0);
 
     let year = games
-        .clone()
-        .iter()
-        .next()
+        .first()
         .map(|g_unwrapped| {
             let dt = g_unwrapped.end_time;
             dt.year()

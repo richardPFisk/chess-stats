@@ -9,14 +9,9 @@ use chesscom_openapi::{
 
 use chrono::{DateTime, Duration, Utc};
 use futures::{
-    future::{ok, try_join_all},
-    stream::{self, Fold, FuturesOrdered, FuturesUnordered},
-    Future, StreamExt, TryFutureExt,
+    stream::{self}, StreamExt, TryFutureExt,
 };
-use std::{
-    future, task, thread,
-    time::{self},
-};
+
 // futures::stream::Fold
 use std::{option::Option, str::FromStr};
 
@@ -73,7 +68,7 @@ pub async fn get_games(username: &str) -> Result<Vec<Games>, Box<dyn std::error:
         .fold(vec![], |mut all_games, (month, year)| async move {
             let conf = chesscom_openapi::apis::configuration::Configuration::default();
             let games_future =
-                get_chess_games_for_month_local(&conf, &username, &year, &month).await;
+                get_chess_games_for_month_local(&conf, username, &year, &month).await;
             all_games.push(games_future);
             all_games
         })
@@ -88,7 +83,7 @@ pub async fn get_games(username: &str) -> Result<Vec<Games>, Box<dyn std::error:
 
 async fn get_profile(username: &str) -> Result<PlayerStats, Box<dyn std::error::Error>> {
     let conf = chesscom_openapi::apis::configuration::Configuration::default();
-    let profile = get_player_profile(&conf, &username).await?;
+    let profile = get_player_profile(&conf, username).await?;
     println!("Username: {}", profile.username);
     println!("Status: {}", profile.status);
     println!("Name: {}", profile.name.as_deref().unwrap_or("<Unknown>"));
@@ -104,6 +99,6 @@ async fn get_profile(username: &str) -> Result<PlayerStats, Box<dyn std::error::
         println!("Last Online: {} days ago", time_since_online.num_days());
     }
 
-    let stats = get_player_stats(&conf, &username).await?;
+    let stats = get_player_stats(&conf, username).await?;
     Ok(stats)
 }
