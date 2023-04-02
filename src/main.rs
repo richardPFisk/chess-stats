@@ -1,7 +1,7 @@
 // #[macro_use]
 // extern crate serde_derive;
 
-use crate::{apis::get_games, game_storage::write_game};
+use crate::{apis::get_games, game_storage::write_games};
 
 // extern crate serde;
 // extern crate serde_json;
@@ -19,15 +19,21 @@ fn get_all_games() {}
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // let p = get_profile("richardfisk").await?;
     let gs = get_games("richardfisk").await?;
+    let flattened_games = gs.iter().map(|g|g.games.clone()).collect::<Vec<_>>();
+    
     println!("length{}", gs.len());
-    let game_option = gs.into_iter().next_back();
-    match game_option {
-        Some(game) => {
-            println!("{:#?}", game.games.clone());
-            write_game(1, 2004, game.games.into_iter().next_back().unwrap().clone())?;
-        },
-        _ => println!("No game. Game over.")
+    for g in flattened_games {
+        
+        write_games(g)?;
     }
+    // let game_option = gs.into_iter().next_back();
+    // match game_option {
+    //     Some(game) => {
+    //         println!("{:#?}", game.games.clone());
+            
+    //     },
+    //     _ => println!("No game. Game over.")
+    // }
     
     Ok(())
 }
