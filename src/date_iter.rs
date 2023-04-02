@@ -37,7 +37,7 @@ where
     }
 }
 
-pub fn get_all_month_years_from_now<'a>(
+pub fn get_all_month_years_from_now(
     earliest_date_time: DateTime<Utc>,
     latest_date_time_option: Option<DateTime<Utc>>,
 ) -> Vec<(String, String)> {
@@ -73,23 +73,11 @@ mod tests {
         assert_eq!(
             m_y,
             [
-                (4, 2022),
-                (5, 2022),
-                (6, 2022),
-                (7, 2022),
-                (8, 2022),
-                (9, 2022),
-                (10, 2022),
-                (11, 2022),
-                (12, 2022),
-                (1, 2023),
-                (2, 2023),
-                (3, 2023),
-                (4, 2023)
+              ("04", "2022"), ("05", "2022"), ("06", "2022"), ("07", "2022"), ("08", "2022"), ("09", "2022"), ("10", "2022"), ("11", "2022"), ("12", "2022"), ("01", "2023"), ("02", "2023"), ("03", "2023"), ("04", "2023")
             ]
             .iter()
-            .map(|&(x, y)| (x as u32, y as i32))
-            .collect::<Vec<(u32, i32)>>()
+            .map(|&(x, y)| (x.into(), y.into()))
+            .collect::<Vec<(String, String)>>()
         );
     }
 }
