@@ -10,7 +10,7 @@ use chesscom_openapi::{
 use chrono::{DateTime, Duration, Utc};
 use futures::{
     stream::{self},
-    StreamExt, TryFutureExt,
+    StreamExt,
 };
 
 // futures::stream::Fold

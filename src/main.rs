@@ -13,8 +13,6 @@ pub mod features;
 pub mod game_storage;
 pub mod models;
 
-fn get_all_games() {}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // let p = get_profile("richardfisk").await?;
