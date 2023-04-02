@@ -13,7 +13,6 @@ use futures::{
     StreamExt,
 };
 
-// futures::stream::Fold
 use std::{option::Option, str::FromStr};
 
 use crate::{date_iter::get_all_month_years_from_now, models::Games};
@@ -82,7 +81,7 @@ pub async fn get_games(username: &str) -> Result<Vec<Games>, Box<dyn std::error:
     Ok(games)
 }
 
-async fn get_profile(username: &str) -> Result<PlayerStats, Box<dyn std::error::Error>> {
+async fn _get_profile(username: &str) -> Result<PlayerStats, Box<dyn std::error::Error>> {
     let conf = chesscom_openapi::apis::configuration::Configuration::default();
     let profile = get_player_profile(&conf, username).await?;
     println!("Username: {}", profile.username);
