@@ -1,4 +1,4 @@
-use std::fs::{File, self};
+use std::fs::{File};
 use std::io::prelude::*;
 extern crate glob;
 use self::glob::glob;
@@ -33,21 +33,20 @@ pub fn write_games(games: Vec<CompletedGame>) -> Result<(), Box<dyn std::error::
 }
 
 pub fn read_games() -> Result<Vec<CompletedGame>, Box<dyn std::error::Error>> {
-  let games_acc = vec![];
+  let mut games_acc = vec![];
 
   let game_files_wildcard = "./completed_game_*.json";
-  // let dir = fs::read_dir(game_files_wildcard)?;
   let games_glob = glob(game_files_wildcard)?;
-  let v: Result<Vec<_>,_> = games_glob.collect();
-  for path in v? {
-    // let path = entry?.path();
-    println!("path: {:?}", path);
+
+  let games_paths: Result<Vec<_>,_> = games_glob.collect();
+  for path in games_paths? {
     let mut f = File::open(path)?;
     let mut buffer = Vec::new();
     f.read_to_end(&mut buffer)?;
-    println!("buf {:?}", buffer);
-    // games_acc.push(value);
+
+    let games: Vec<CompletedGame> = serde_json::from_slice(&buffer)?;
+    games_acc.push(games);
   }
   
-  Ok(games_acc)
+  Ok(games_acc.into_iter().flatten().collect())
 }
