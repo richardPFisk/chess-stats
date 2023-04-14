@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap};
 
 fn is_special_sub_string(s1: &str, s2: &str) -> bool {
     let replaced_string = s2.replace(s1, "");
@@ -6,13 +6,13 @@ fn is_special_sub_string(s1: &str, s2: &str) -> bool {
 }
 
 pub fn get_parent_child_strings(some_strings: Vec<String>) -> BTreeMap<String, Vec<String>> {
-    let mut strings = some_strings.clone();
+    let mut strings = some_strings;
     strings.sort();
 
     let mut map = BTreeMap::new();
 
     for s in strings {
-        let parts: Vec<_> = s.split("-").collect();
+        let parts: Vec<_> = s.split('-').collect();
         let parent = parts[0..2].join("-");
 
         let child_vec = map.entry(parent.clone()).or_insert(Vec::new());
@@ -28,13 +28,13 @@ pub fn get_parent_child_strings(some_strings: Vec<String>) -> BTreeMap<String, V
 }
 
 pub fn get_child_to_parent_map(some_strings: Vec<String>) -> HashMap<String, String> {
-    let mut strings = some_strings.clone();
+    let mut strings = some_strings;
     strings.sort();
 
     let mut map = HashMap::new();
 
     for s in strings {
-        let parts: Vec<_> = s.split("-").collect();
+        let parts: Vec<_> = s.split('-').collect();
         let parent = parts[0..2].join("-");
 
         let is_sub = is_special_sub_string(&parent, &s);
@@ -49,8 +49,8 @@ pub fn get_child_to_parent_map(some_strings: Vec<String>) -> HashMap<String, Str
 #[cfg(test)]
 mod tests {
     use super::get_parent_child_strings;
-    use pretty_assertions::{assert_eq, assert_ne};
-    use std::collections::{BTreeMap, HashMap};
+    use pretty_assertions::{assert_eq};
+    use std::collections::{BTreeMap};
 
     #[test]
     fn test_parent_child() {
