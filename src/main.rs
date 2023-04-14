@@ -1,12 +1,10 @@
 use game_storage::read_games;
 
 use crate::{
-    apis::get_games,
     features::{
         count_by_grouped_openings, count_openings, count_results, get_all_openings,
         group_by_opening,
     },
-    game_storage::write_games,
 };
 
 pub mod apis;
@@ -27,11 +25,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let results = count_results(g.clone());
     println!("{:#?}", results);
 
-    let games_by_opening = group_by_opening(g.clone());
+    let games_by_opening = group_by_opening(g);
     println!("{:#?}", games_by_opening);
     let c = count_by_grouped_openings(games_by_opening.clone());
     println!("{:#?}", c);
-    let results_by_opening = games_by_opening
+    let _results_by_opening = games_by_opening
         .iter()
         .map(|(opening, games)| (opening, count_results(games.clone())))
         .collect::<Vec<_>>();

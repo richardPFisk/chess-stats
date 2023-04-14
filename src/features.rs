@@ -20,7 +20,7 @@ pub fn count_results(
     let mut results_count = vec![];
     for game in games {
         let mut found = false;
-        for (i, (result, count)) in results_count.iter_mut().enumerate() {
+        for (_i, (result, count)) in results_count.iter_mut().enumerate() {
             if result == &game.white.result {
                 *count += 1;
                 found = true;
@@ -38,17 +38,17 @@ pub fn opening(game: &CompletedGame) -> Option<String> {
     _opening(&game.pgn, true)
 }
 lazy_static! {
-    static ref short_opening_re: Regex =
+    static ref SHORT_OPENING_RE: Regex =
         Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"0-9]*)"#).unwrap();
 }
 lazy_static! {
-    static ref long_opening_re: Regex =
+    static ref LONG_OPENING_RE: Regex =
         Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap();
 }
 
 fn _opening(input: &str, use_short_opening: bool) -> Option<String> {
     if use_short_opening {
-        let re = &short_opening_re;
+        let re = &SHORT_OPENING_RE;
         let captures = re.captures_iter(input);
         let first = captures.into_iter().next();
 
@@ -56,7 +56,7 @@ fn _opening(input: &str, use_short_opening: bool) -> Option<String> {
             .as_ref()
             .and_then(|c| c.name("opening").map(|m| m.as_str().to_owned()));
     } else {
-        let captures = long_opening_re.captures_iter(input);
+        let captures = LONG_OPENING_RE.captures_iter(input);
         let first = &captures.into_iter().next();
 
         return first
@@ -75,7 +75,7 @@ pub fn count_openings(openings: Vec<String>) -> Vec<(String, usize)> {
     let mut openings_count = vec![];
     for opening in openings {
         let mut found = false;
-        for (i, (opening_name, count)) in openings_count.iter_mut().enumerate() {
+        for (_i, (opening_name, count)) in openings_count.iter_mut().enumerate() {
             if opening_name == &opening {
                 *count += 1;
                 found = true;

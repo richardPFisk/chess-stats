@@ -4,10 +4,10 @@ use crate::{
 };
 // use linfa::{traits::Fit, DatasetBase};
 // use linfa_trees::DecisionTree;
-use ndarray::{array, Array1, Array2};
+
 use serde::{Deserialize, Serialize};
 
-use linfa::dataset::{DatasetBase, Records};
+
 // use ndarray::{array, Array1, Array2};
 // use std::convert::TryFrom;
 
@@ -42,10 +42,10 @@ struct LinfaFeatures {
 // }
 
 pub fn get_linfa_tree(username: &str, games: Vec<CompletedGame>) {
-    let features = games
+    let _features = games
         .iter()
         .map(|g| {
-            let o = opening(&g);
+            let o = opening(g);
             let r = result(username, g.clone());
 
             LinfaFeatures {
