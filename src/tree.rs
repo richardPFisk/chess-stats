@@ -7,7 +7,6 @@ use crate::{
 
 use serde::{Deserialize, Serialize};
 
-
 // use ndarray::{array, Array1, Array2};
 // use std::convert::TryFrom;
 

@@ -35,7 +35,7 @@ pub fn count_results(
 }
 
 pub fn opening(game: &CompletedGame) -> Option<String> {
-    _opening(&game.pgn, true)
+    _opening(&game.pgn, false)
 }
 lazy_static! {
     static ref SHORT_OPENING_RE: Regex =
@@ -67,7 +67,7 @@ fn _opening(input: &str, use_short_opening: bool) -> Option<String> {
 
 pub fn get_all_openings(game: Vec<CompletedGame>) -> Vec<String> {
     game.iter()
-        .filter_map(|g| _opening(&g.pgn, true))
+        .filter_map(|g| _opening(&g.pgn, false))
         .collect::<Vec<_>>()
 }
 
@@ -106,8 +106,8 @@ pub fn group_by_opening(games: Vec<CompletedGame>) -> Vec<(String, Vec<Completed
         }
     }
 
-    let mut gg:  Vec<(String, Vec<CompletedGame>)> = grouped_games.into_iter().collect();
-    gg.sort_by(|g1, g2|g1.0.cmp(&g2.0));
+    let mut gg: Vec<(String, Vec<CompletedGame>)> = grouped_games.into_iter().collect();
+    gg.sort_by(|g1, g2| g1.0.len().cmp(&g2.0.len()));
     gg
 }
 
