@@ -1,8 +1,8 @@
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::collections::HashMap;
+use std::collections::{HashMap, BTreeMap};
 
-use crate::models::CompletedGame;
+use crate::{models::CompletedGame, string_util::{get_parent_child_strings, get_child_to_parent_map}};
 
 pub fn result(
     username: &str,
@@ -92,17 +92,19 @@ pub fn count_openings(openings: Vec<String>) -> Vec<(String, usize)> {
 pub fn group_by_opening(games: Vec<CompletedGame>) -> Vec<(String, Vec<CompletedGame>)> {
     let mut grouped_games: HashMap<String, Vec<CompletedGame>> = HashMap::new();
     let openings = get_all_openings(games.clone());
+    let parent_child_openings: BTreeMap<String, Vec<String>> = get_parent_child_strings(openings.clone());
 
-    for opening in openings {
-        grouped_games.insert(opening, vec![]);
+    for (opening_parent, _openings) in parent_child_openings {
+        grouped_games.insert(opening_parent, vec![]);
     }
-
+    let child_to_parent_map = get_child_to_parent_map(openings);
+    
     for game in games {
-        let opening_name = opening(&game).unwrap_or_else(|| "Unknown".to_string());
-        if let Some(games_in_group) = grouped_games.get_mut(&opening_name) {
-            if opening(&game).unwrap() == opening_name {
-                games_in_group.push(game.clone());
-            }
+        let original_opening = opening(&game).unwrap_or_else(|| "Unknown".to_string());
+        let opening_name = child_to_parent_map.get(&original_opening).unwrap();
+        
+        if let Some(games_in_group) = grouped_games.get_mut(&opening_name.clone()) {
+            games_in_group.push(game.clone());
         }
     }
 

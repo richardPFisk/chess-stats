@@ -27,18 +27,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     openings_count.sort_by(|(_, a), (_, b)| b.cmp(a));
     // println!("{:#?}", openings_count);
     let results = count_results(g.clone());
-    // println!("{:#?}", results);
+    println!("{:#?}", results);
 
     let games_by_opening = group_by_opening(g);
     // println!("{:#?}", games_by_opening);
     let c = count_by_grouped_openings(games_by_opening.clone());
-    // println!("{:#?}", c);
+    println!("{:#?}", c);
     let results_by_opening = games_by_opening
         .iter()
         .map(|(opening, games)| (opening, count_results(games.clone())))
         .collect::<Vec<_>>();
     println!("finished");
-    // println!("{:#?}", results_by_opening);
+    println!("{:#?}", results_by_opening);
     // let p = get_profile("richardfisk").await?;
     // let gs = get_games("richardfisk").await?;
     // let flattened_games = gs.iter().map(|g| g.games.clone()).collect::<Vec<_>>();

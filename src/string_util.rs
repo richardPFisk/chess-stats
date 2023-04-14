@@ -27,6 +27,25 @@ pub fn get_parent_child_strings(some_strings: Vec<String>) -> BTreeMap<String, V
     map
 }
 
+pub fn get_child_to_parent_map(some_strings: Vec<String>) -> HashMap<String, String> {
+    let mut strings = some_strings.clone();
+    strings.sort();
+
+    let mut map = HashMap::new();
+
+    for s in strings {
+        let parts: Vec<_> = s.split("-").collect();
+        let parent = parts[0..2].join("-");
+
+        let is_sub = is_special_sub_string(&parent, &s);
+        if is_sub {
+            map.insert(s.clone(), parent.clone());
+        }
+    }
+
+    map
+}
+
 #[cfg(test)]
 mod tests {
     use super::get_parent_child_strings;
