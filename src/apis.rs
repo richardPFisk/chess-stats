@@ -60,9 +60,10 @@ pub async fn get_chess_games_for_month_local(
 }
 
 pub async fn get_games(username: &str) -> Result<Vec<Games>, Box<dyn std::error::Error>> {
-    let first_game_str = "2022-03-18T23:59:60.234567+05:00";
+    let first_game_str = "2023-01-01T23:59:60.234567+05:00";
     let first_game_date = DateTime::<Utc>::from_str(first_game_str)?;
     let dates = get_all_month_years_from_now(first_game_date, None);
+    println!("dates {:#?}", dates);
 
     let y = stream::iter(dates)
         .fold(vec![], |mut all_games, (month, year)| async move {

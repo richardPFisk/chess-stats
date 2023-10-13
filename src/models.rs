@@ -19,7 +19,9 @@ pub struct Games {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CompletedGame {
+    // #[serde(flatten)]
     pub white: PlayerResult,
+    // #[serde(flatten)]
     pub black: PlayerResult,
     pub url: String,
     pub fen: String,

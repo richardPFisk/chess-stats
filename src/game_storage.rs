@@ -7,7 +7,10 @@ use chrono::Datelike;
 
 use crate::models::CompletedGame;
 
-pub fn write_games(games: Vec<CompletedGame>) -> Result<(), Box<dyn std::error::Error>> {
+pub fn write_games(
+    games: &Vec<CompletedGame>,
+    path: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
     let month = games
         .first()
         .map(|g_unwrapped| {
@@ -24,7 +27,8 @@ pub fn write_games(games: Vec<CompletedGame>) -> Result<(), Box<dyn std::error::
         })
         .unwrap_or(0);
 
-    let path = format!("completed_game_{}_{}.json", year, month);
+    let path = format!("{}/completed_game_{}_{}.json", path, year, month);
+    println!("path {}", path);
     let mut file = File::create(path)?;
 
     let game_str = serde_json::to_string(&games)?;
@@ -40,10 +44,11 @@ pub fn read_games() -> Result<Vec<CompletedGame>, Box<dyn std::error::Error>> {
 
     let games_paths: Result<Vec<_>, _> = games_glob.collect();
     for path in games_paths? {
-        let mut f = File::open(path)?;
+        let mut f = File::open(&path)?;
         let mut buffer = Vec::new();
         f.read_to_end(&mut buffer)?;
 
+        println!("wat? {:#?}", path);
         let games: Vec<CompletedGame> = serde_json::from_slice(&buffer)?;
         games_acc.push(games);
     }

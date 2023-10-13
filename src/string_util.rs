@@ -49,8 +49,8 @@ pub fn get_child_to_parent_map(some_strings: Vec<String>) -> HashMap<String, Str
 #[cfg(test)]
 mod tests {
     use super::get_parent_child_strings;
-    use pretty_assertions::{assert_eq};
-    use std::collections::{BTreeMap};
+    use pretty_assertions::assert_eq;
+    use std::collections::BTreeMap;
 
     #[test]
     fn test_parent_child() {
