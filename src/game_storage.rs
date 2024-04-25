@@ -36,7 +36,7 @@ pub fn write_games(
     Ok(())
 }
 
-pub fn read_games(path: &str,) -> Result<Vec<CompletedGame>, Box<dyn std::error::Error>> {
+pub fn read_games(_path: &str,) -> Result<Vec<CompletedGame>, Box<dyn std::error::Error>> {
     let mut games_acc = vec![];
 
     let game_files_wildcard = "./completed_game_*.json";

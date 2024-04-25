@@ -1,13 +1,10 @@
 use game_storage::read_games;
 
 use crate::{
-    apis::get_games,
-    csv_models::to_csv,
     features::{
         count_by_grouped_openings, count_openings, count_results, get_all_openings,
         group_by_opening, username_colour, opening,
     },
-    game_storage::write_games,
     string_util::get_parent_child_strings,
     tree::get_linfa_tree, models::CompletedGame,
 };
@@ -38,8 +35,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("finished writing games");
     // to_csv(&g)?;
     let game_to_opening_name: Box<dyn Fn(&CompletedGame) -> Option<String>> = Box::new(|game: &CompletedGame| {
-        let my_colour = username_colour(username, &game);
-        let original_opening = opening(&game).unwrap_or_else(|| "Unknown".to_string());
+        let my_colour = username_colour(username, game);
+        let original_opening = opening(game).unwrap_or_else(|| "Unknown".to_string());
         
         Some(format!("{} ({})", original_opening, my_colour.as_str()))
     });
@@ -56,9 +53,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let games_by_opening = group_by_opening(username, g.clone());
     println!("games_by_opening");
     println!("{:#?}", games_by_opening);
-    let c = count_by_grouped_openings(games_by_opening.clone());
+    let _c = count_by_grouped_openings(games_by_opening.clone());
     // println!("{:#?}", c);
-    let results_by_opening = games_by_opening
+    let _results_by_opening = games_by_opening
         .iter()
         .map(|(opening, games)| (opening, count_results(games.clone())))
         .collect::<Vec<_>>();
@@ -76,6 +73,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // for g in flattened_games {
     //     write_games(g)?;
     // }
-    get_linfa_tree(&"richardfisk", &g)?;
+    get_linfa_tree("richardfisk", &g)?;
     Ok(())
 }

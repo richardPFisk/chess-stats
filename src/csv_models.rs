@@ -1,10 +1,10 @@
 use std::{error::Error, io};
 
-use chesscom_openapi::models::PlayerResult;
+
 use chesscom_openapi::models::completed_game::{TimeClass, Rules};
 
-use crate::models::CompletedGame;
-use std::convert::From;
+
+
 use std::option::Option as StdOption;
 use serde::{Deserialize, Serialize};
 
@@ -76,7 +76,7 @@ pub fn to_csv(games: &Vec<FlattenedGame>) -> Result<(), Box<dyn Error>> {
 
 #[cfg(test)]
 mod tests {
-    use crate::models::CompletedGame;
+    
 
     // Note this useful idiom: importing names from outer (for mod tests) scope.
     use super::*;

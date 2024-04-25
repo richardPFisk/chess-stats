@@ -97,7 +97,7 @@ where
     F: Fn(&CompletedGame) -> Option<String>,    
 {
     game.iter()
-        .filter_map(|g| game_to_opening_name(&g))
+        .filter_map(game_to_opening_name)
         .collect::<Vec<_>>()
 }
 
@@ -122,8 +122,8 @@ pub fn count_openings(openings: Vec<String>) -> Vec<(String, usize)> {
 pub fn group_by_opening(username: &str, games: Vec<CompletedGame>) -> Vec<(String, Vec<CompletedGame>)> {
     
     let game_to_opening_name: Box<dyn Fn(&CompletedGame) -> Option<String>> = Box::new(|game: &CompletedGame| {
-        let my_colour = username_colour(username, &game);
-        let original_opening = opening(&game).unwrap_or_else(|| "Unknown".to_string());
+        let my_colour = username_colour(username, game);
+        let original_opening = opening(game).unwrap_or_else(|| "Unknown".to_string());
         
         Some(format!("{} ({})", original_opening, my_colour.as_str()))
     });
@@ -136,7 +136,7 @@ pub fn group_by_opening(username: &str, games: Vec<CompletedGame>) -> Vec<(Strin
     for (opening_parent, _openings) in parent_child_openings {
         grouped_games.insert(opening_parent, vec![]);
     }
-    let child_to_parent_map = get_child_to_parent_map(openings);
+    let _child_to_parent_map = get_child_to_parent_map(openings);
 
     for game in games {
         let opening_name = game_to_opening_name(&game).unwrap();

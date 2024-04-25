@@ -1,4 +1,4 @@
-use std::{fs::File, io::Write};
+use std::{fs::File};
 
 use crate::{
     features::{opening, result},
@@ -6,11 +6,11 @@ use crate::{
 };
 // use linfa::{traits::Fit, DatasetBase};
 // use linfa_trees::DecisionTree;
-use linfa::prelude::*;
-use linfa::Dataset;
-use linfa::{traits::Fit, DatasetBase};
-use linfa_trees::DecisionTree;
-use ndarray::{array, Array1};
+
+
+
+
+
 use serde::{Deserialize, Serialize};
 // use ndarray::{array, Array1, Array2};
 // use std::convert::TryFrom;
@@ -49,7 +49,7 @@ pub fn get_linfa_tree(
     username: &str,
     games: &Vec<CompletedGame>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let features = games
+    let _features = games
         .iter()
         .map(|g| {
             let o = opening(g);
@@ -67,7 +67,7 @@ pub fn get_linfa_tree(
     //   .map(|d| Ok(array![d.opening.clone(), d.result.clone()]))
     //   .collect::<Result<Vec<Array1<String>>, Box<dyn std::error::Error>>>();
 
-    let data = ndarray::arr2(&[
+    let _data = ndarray::arr2(&[
         [35.0, 1.0, 50000.0, 10.0, 120.0, 3.0],
         [45.0, 0.0, 75000.0, 20.0, 240.0, 2.0],
         [25.0, 1.0, 30000.0, 5.0, 60.0, 1.0],
@@ -91,7 +91,7 @@ pub fn get_linfa_tree(
     //     .max_depth(Some(2))
     //     .fit(&dataset)?;
 
-    let mut tikz =
+    let _tikz =
         File::create("/Users/richardfisk/projects/chess-stats/decision_tree_example.tex").unwrap();
     // tikz.write_all(tree.export_to_tikz().with_legend().to_string().as_bytes())
     //     .unwrap();
