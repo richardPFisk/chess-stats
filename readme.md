@@ -1,5 +1,11 @@
 ## Todo
 
+### Game concepts
+* player focus (api only uses username to relate facets of games to )
+  * result
+  * colour
+  * etc
+
 ### Goal
 The goal is to create actionable insights.
 By highlighting problems and trends, what are the concrete changes that will lead to better outcomes.
@@ -29,6 +35,10 @@ Examples:
 
 
 ---
+
+## Linfa tree documentation
+
+https://www.freecodecamp.org/news/how-to-build-a-machine-learning-model-in-rust/
 
 ## Example linfa-tree usage
 

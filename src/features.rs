@@ -7,6 +7,20 @@ use crate::{
     string_util::{get_child_to_parent_map, get_parent_child_strings},
 };
 
+pub enum Colour {
+    White,
+    Black,
+}
+
+impl Colour {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Colour::White => "white",
+            Colour::Black => "black"
+        }
+    }
+}
+
 pub fn result(
     username: &str,
     game: CompletedGame,
@@ -15,6 +29,16 @@ pub fn result(
         return game.white.result;
     }
     game.black.result
+}
+
+pub fn username_colour(
+    username: &str,
+    game: &CompletedGame,
+) -> Colour {
+    if game.white.username == username {
+        return Colour::White;
+    }
+    Colour::Black
 }
 
 pub fn count_results(
@@ -68,9 +92,12 @@ fn _opening(input: &str, use_short_opening: bool) -> Option<String> {
     }
 }
 
-pub fn get_all_openings(game: Vec<CompletedGame>) -> Vec<String> {
+pub fn get_all_openings<F>(game: Vec<CompletedGame>, game_to_opening_name: &F) -> Vec<String> 
+where
+    F: Fn(&CompletedGame) -> Option<String>,    
+{
     game.iter()
-        .filter_map(|g| _opening(&g.pgn, false))
+        .filter_map(|g| game_to_opening_name(&g))
         .collect::<Vec<_>>()
 }
 
@@ -92,9 +119,17 @@ pub fn count_openings(openings: Vec<String>) -> Vec<(String, usize)> {
     openings_count
 }
 
-pub fn group_by_opening(games: Vec<CompletedGame>) -> Vec<(String, Vec<CompletedGame>)> {
+pub fn group_by_opening(username: &str, games: Vec<CompletedGame>) -> Vec<(String, Vec<CompletedGame>)> {
+    
+    let game_to_opening_name: Box<dyn Fn(&CompletedGame) -> Option<String>> = Box::new(|game: &CompletedGame| {
+        let my_colour = username_colour(username, &game);
+        let original_opening = opening(&game).unwrap_or_else(|| "Unknown".to_string());
+        
+        Some(format!("{} ({})", original_opening, my_colour.as_str()))
+    });
+
     let mut grouped_games: HashMap<String, Vec<CompletedGame>> = HashMap::new();
-    let openings = get_all_openings(games.clone());
+    let openings = get_all_openings(games.clone(), &game_to_opening_name);
     let parent_child_openings: BTreeMap<String, Vec<String>> =
         get_parent_child_strings(openings.clone());
 
@@ -104,9 +139,7 @@ pub fn group_by_opening(games: Vec<CompletedGame>) -> Vec<(String, Vec<Completed
     let child_to_parent_map = get_child_to_parent_map(openings);
 
     for game in games {
-        let original_opening = opening(&game).unwrap_or_else(|| "Unknown".to_string());
-        let opening_name = child_to_parent_map.get(&original_opening).unwrap();
-
+        let opening_name = game_to_opening_name(&game).unwrap();
         if let Some(games_in_group) = grouped_games.get_mut(&opening_name.clone()) {
             games_in_group.push(game.clone());
         }

@@ -1,12 +1,8 @@
 use std::option::Option;
-
 use chesscom_openapi::models::completed_game::Rules;
-
 use chesscom_openapi::models::completed_game::TimeClass;
-
 use chesscom_openapi::models::PlayerResult;
 use chrono;
-
 use serde::{Deserialize, Serialize};
 use std::option::Option as StdOption;
 
