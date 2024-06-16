@@ -2,14 +2,16 @@ use game_storage::read_games;
 
 use crate::{
     features::{
-        count_by_grouped_openings, count_openings, count_results, get_all_openings,
-        group_by_opening, username_colour, opening,
+        count_by_grouped_openings, count_openings, count_results, game_opening::get_all_openings,
+        group_openings::group_by_opening_by_root_opening,
+        game_opening::opening
     },
     string_util::get_parent_child_strings,
     tree::get_linfa_tree, models::CompletedGame,
 };
 
-pub mod apis;
+
+pub mod get_profile;
 mod csv_models;
 pub mod date_iter;
 pub mod features;
@@ -18,9 +20,16 @@ pub mod models;
 mod string_util;
 mod tree;
 mod engine;
+mod games_source;
 
+use games_source::{chess_com_source::ChessCommGamesSource, GamesSource};
+use features::username_colour::username_colour;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let gs = ChessCommGamesSource { username: "Richardfisk".into(), from_month_string: "2024-05-01T23:59:60.234567+05:00".into() };
+    let games = gs.get_games().await?;
+    println!("{games:#?}");
+    return Ok(());
     let games_path = "./recent-games";
     let g = read_games(games_path)?;
     let username = &"Richardfisk";
@@ -50,7 +59,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let results = count_results(g.clone());
     println!("{:#?}", results);
 
-    let games_by_opening = group_by_opening(username, g.clone());
+    let games_by_opening = group_by_opening_by_root_opening(username, g.clone());
     println!("games_by_opening");
     println!("{:#?}", games_by_opening);
     let _c = count_by_grouped_openings(games_by_opening.clone());

@@ -1,7 +1,7 @@
-use std::{fs::File};
+use std::fs::File;
 
 use crate::{
-    features::{opening, result},
+    features::{game_opening::opening, result::result},
     models::CompletedGame,
 };
 // use linfa::{traits::Fit, DatasetBase};

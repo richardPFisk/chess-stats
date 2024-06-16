@@ -1,9 +1,11 @@
+use std::collections::HashMap;
 use std::option::Option;
 use chesscom_openapi::models::completed_game::Rules;
 use chesscom_openapi::models::completed_game::TimeClass;
 use chesscom_openapi::models::PlayerResult;
 use chrono;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use std::option::Option as StdOption;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -47,13 +49,15 @@ pub struct CompletedGame {
     #[serde(rename = "match", skip_serializing_if = "Option::is_none")]
     pub _match: Option<String>,
     pub accuracies: Option<Accuracies>,
+    #[serde(flatten)]
+    pub extra: HashMap<String, Value>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Accuracies {
     pub(crate) white: f32,
-    pub(crate) black: f32,
+    pub(crate) black: f32,  
 }
 
 #[cfg(test)]
