@@ -36,8 +36,7 @@ pub async fn get_chess_games_for_month_local(
     let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = configuration.user_agent {
-        local_var_req_builder =
-            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        local_var_req_builder = local_var_req_builder.header("user-agent", local_var_user_agent.clone());
     }
 
     let local_var_req = local_var_req_builder.build()?;
@@ -60,7 +59,7 @@ pub async fn get_chess_games_for_month_local(
 }
 
 pub async fn get_games(username: &str) -> Result<Vec<Games>, Box<dyn std::error::Error>> {
-    let first_game_str = "2023-06-01T23:59:60.234567+05:00";
+    let first_game_str = "2024-06-01T23:59:60.234567+05:00";
     let first_game_date = DateTime::<Utc>::from_str(first_game_str)?;
     let dates = get_all_month_years_from_now(first_game_date, None);
     println!("dates {:#?}", dates);
