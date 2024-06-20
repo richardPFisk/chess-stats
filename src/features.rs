@@ -21,7 +21,7 @@ impl Colour {
 
 
 pub fn count_results(
-    games: Vec<CompletedGame>,
+    games: &[CompletedGame],
 ) -> Vec<(chesscom_openapi::models::player_result::Result, usize)> {
     let mut results_count = vec![];
     for game in games {

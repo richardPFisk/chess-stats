@@ -4,14 +4,20 @@ use regex::Regex;
 
 use crate::models::CompletedGame;
 
+use super::username_colour::username_colour;
+
 pub fn opening(game: &CompletedGame) -> Option<String> {
   _opening(&game.pgn, false)
 }
 
-pub fn get_all_openings<F>(game: Vec<CompletedGame>, game_to_opening_name: &F) -> Vec<String> 
-where
-    F: Fn(&CompletedGame) -> Option<String>,    
+pub fn get_all_openings(username: &str, game: &[CompletedGame]) -> Vec<String> 
 {
+    let game_to_opening_name: Box<dyn Fn(&CompletedGame) -> Option<String>> = Box::new(|game: &CompletedGame| {
+      let my_colour = username_colour(username, game);
+      let original_opening = opening(game).unwrap_or_else(|| "Unknown".to_string());
+      
+      Some(format!("{} ({})", original_opening, my_colour.as_str()))
+    });
     game.iter()
         .filter_map(game_to_opening_name)
         .collect::<Vec<_>>()
