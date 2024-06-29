@@ -32,15 +32,16 @@ async fn api_games() -> Result<Vec<CompletedGame>, Box<dyn std::error::Error>> {
 
     let gs = ChessCommGamesSource { username, from_month_string };
     let wrapped_games = gs.get_games().await?;
-    println!("{wrapped_games:#?}");
+    // println!("{wrapped_games:#?}");
     let games = wrapped_games.into_iter().flat_map(|g|g.games).collect::<Vec<_>>();
     Ok(games)
 }
 
-fn results_by_openings(username: &str, games: &[CompletedGame]) -> () {
+fn results_by_openings<'a>(username: &'a str, games: &'a [CompletedGame]) -> Vec<(String, Vec<(chesscom_openapi::models::player_result::Result, usize)>)> {
     let openings = get_all_openings(username, games);
+    println!("{openings:#?}");
     let parent_child_openings = get_parent_child_strings(openings.clone());
-
+    println!("{parent_child_openings:#?}");
     let mut openings_count = count_openings(openings);
     openings_count.sort_by(|(_, a), (_, b)| b.cmp(a));
 
@@ -50,9 +51,10 @@ fn results_by_openings(username: &str, games: &[CompletedGame]) -> () {
     let _c = count_by_grouped_openings(games_by_opening.clone());
     let _results_by_opening = games_by_opening
         .iter()
-        .map(|(opening, games)| (opening, count_results(games)))
+        .map(|(opening, games)| (opening.to_string(), count_results(games)))
         .collect::<Vec<_>>();
-    println!("{_results_by_opening:#?}");
+    // println!("{_results_by_opening:#?}");
+    _results_by_opening
 }
 
 #[tokio::main]
@@ -63,13 +65,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let username  = "Richardfisk";
 
     let games = api_games().await?;
-
+    println!("{games:#?}");
+    let games_count = games.len();
+    println!("===> games_count: {games_count}");
     let black_games: Vec<CompletedGame> = games.clone().into_iter().filter(|g| g.black.username == username).collect::<Vec<_>>();
     let black_openings = results_by_openings(username, &black_games.as_slice());
+    let black_openings_count: usize = black_openings.into_iter().map(|(a, b)| b.len()).into_iter().sum();
+    println!("{black_openings_count:#?}");
 
     let white_games = games.clone().into_iter().filter(|g| g.white.username == username).collect::<Vec<_>>();
     let white_openings = results_by_openings(username, &white_games.as_slice());
-    
+    let white_openings_count: usize = white_openings.into_iter().map(|(a, b)| b.len()).into_iter().sum();
+    println!("{white_openings_count:#?}");
 
     // get_linfa_tree("richardfisk", &g)?;
     Ok(())

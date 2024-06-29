@@ -4,8 +4,8 @@ use crate::{
     features::{game_opening::opening, result::result},
     models::CompletedGame,
 };
-// use linfa::{traits::Fit, DatasetBase};
-// use linfa_trees::DecisionTree;
+use linfa::{traits::Fit, Dataset, DatasetBase};
+use linfa_trees::DecisionTree;
 
 
 
@@ -67,7 +67,7 @@ pub fn get_linfa_tree(
     //   .map(|d| Ok(array![d.opening.clone(), d.result.clone()]))
     //   .collect::<Result<Vec<Array1<String>>, Box<dyn std::error::Error>>>();
 
-    let _data = ndarray::arr2(&[
+    let data = ndarray::arr2(&[
         [35.0, 1.0, 50000.0, 10.0, 120.0, 3.0],
         [45.0, 0.0, 75000.0, 20.0, 240.0, 2.0],
         [25.0, 1.0, 30000.0, 5.0, 60.0, 1.0],

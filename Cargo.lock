@@ -231,6 +231,7 @@ dependencies = [
  "chesscom-openapi",
  "chrono",
  "csv",
+ "fp-core",
  "futures",
  "glob",
  "lazy_static",
@@ -592,6 +593,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a9c384f161156f5260c24a097c56119f9be8c798586aecc13afbcbe7b7e26bf8"
 dependencies = [
  "percent-encoding",
+]
+
+[[package]]
+name = "fp-core"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "338a5feb6c7248603dfa3da758da4e99abb65e792a157fe1d657e7c2f5fbcd0b"
+dependencies = [
+ "itertools 0.8.2",
 ]
 
 [[package]]
@@ -1139,6 +1149,15 @@ checksum = "30e22bd8629359895450b59ea7a776c850561b96a3b1d31321c1949d9e6c9146"
 
 [[package]]
 name = "itertools"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f56a2d0bc861f9165be4eb3442afd3c236d8a98afd426f65d92324ae1091a484"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
@@ -1222,23 +1241,24 @@ checksum = "348108ab3fba42ec82ff6e9564fc4ca0247bdccdc68dd8af9764bbc79c3c8ffb"
 
 [[package]]
 name = "linfa"
-version = "0.6.1"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d65d0d9f86f65485b3a9fc6dad8620b67394d102aa3c4088628a9a1accda008"
+checksum = "1cab423110bc374e4cfa915da88952e2c6a4a5a6300ac0a0e68022bff2ace0b3"
 dependencies = [
  "approx",
  "ndarray",
  "num-traits",
  "rand 0.8.5",
  "serde",
+ "sprs",
  "thiserror",
 ]
 
 [[package]]
 name = "linfa-trees"
-version = "0.6.1"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "464029f9a6ffd8016539a9c2a73e569b1118d50eb44638549f8cd5807ea77f8c"
+checksum = "1895ab54f5553c7891e6283636e1e2081b157295a245e42ba853bcd8ac183cc6"
 dependencies = [
  "linfa",
  "ndarray",
@@ -1989,7 +2009,7 @@ dependencies = [
  "built",
  "cfg-if",
  "interpolate_name",
- "itertools",
+ "itertools 0.12.1",
  "libc",
  "libfuzzer-sys",
  "log",
@@ -2417,6 +2437,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
 dependencies = [
  "lock_api",
+]
+
+[[package]]
+name = "sprs"
+version = "0.11.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88bab60b0a18fb9b3e0c26e92796b3c3a278bf5fa4880f5ad5cc3bdfb843d0b1"
+dependencies = [
+ "ndarray",
+ "num-complex",
+ "num-traits",
+ "smallvec",
 ]
 
 [[package]]
