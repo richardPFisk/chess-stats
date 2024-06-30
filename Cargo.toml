@@ -1,6 +1,6 @@
 [workspace]
 members = [
     "chesscom"
-]
+, "openings"]
 exclude = ["crates/foo", "path/to/other"]
 resolver = "2"
