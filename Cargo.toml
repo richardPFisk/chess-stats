@@ -1,6 +1,8 @@
 [workspace]
 members = [
-    "chesscom"
-, "openings"]
+    "chesscom", 
+    "openings",
+    "ui"
+]
 exclude = ["crates/foo", "path/to/other"]
 resolver = "2"
