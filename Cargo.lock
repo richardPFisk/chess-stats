@@ -457,6 +457,13 @@ name = "chess-openings"
 version = "0.1.0"
 
 [[package]]
+name = "chess-pgn"
+version = "0.1.0"
+dependencies = [
+ "pgn-reader",
+]
+
+[[package]]
 name = "chess-stats"
 version = "0.1.0"
 dependencies = [
