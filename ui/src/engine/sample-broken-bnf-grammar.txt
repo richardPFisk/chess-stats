@@ -1,0 +1,31 @@
+<header> ::= <tagpair> (<tagpair> | <rest_of_line_comment> | <empty_line>)*
+
+<tagpair> ::= "[" <tagpair_key> <tagpair_value> "]"
+
+<tagpair_key> ::= (<non_space_character>)*
+
+<non_space_character> ::= <letter> | <digit> | <symbol>
+
+<letter>         ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+<digit>          ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<symbol>         ::= "|" | " " | "!" | "#" | "$" | "%" | "&" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" | ":" | ";" | ">" | "=" | "<" | "?" | "@" | "[" | "\" | "]" | "^" | "_" | "`" | "{" | "}" | "~"
+
+<empty_line> ::= <line_break> <line_break>
+
+<line_break> ::= <carriage_return> <line_feed> | <line_feed>
+
+<carriage_return> ::= "\r"
+
+<line_feed> ::= "\n"
+
+<tagpair_value> ::= '"' <tagpair_value_contents> '"'
+
+<tagpair_value_contents> ::= (<tagpair_value_character> | <escaped_quote>)*
+
+<tagpair_value_character> ::= <any_character_except_quote>
+
+<escaped_quote> ::= "\""
+
+<any_character_except_quote> ::= <letter> | <digit> | <symbol_except_quote> | <space>
+
+<symbol_except_quote> ::= "!" | "#" | "$" | "%" | "&" | "'" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" | ":" | ";" | "<" | "=" | ">" | "?" | "@" | "[" | "\" | "]" | "^" | "_" | "`" | "{" | "|" | "}" | "~"
