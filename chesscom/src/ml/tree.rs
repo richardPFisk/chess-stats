@@ -1,7 +1,7 @@
 use std::fs::File;
 
 use crate::{
-    features::{game_opening::opening, result::result},
+    features::{game_opening::game_to_opening, result::result},
     models::CompletedGame,
 };
 use linfa::{traits::Fit, Dataset, DatasetBase};
@@ -52,11 +52,11 @@ pub fn get_linfa_tree(
     let _features = games
         .iter()
         .map(|g| {
-            let o = opening(g);
+            let o = game_to_opening(username, g);
             let r = result(username, g.clone());
 
             LinfaFeatures {
-                opening: o.unwrap_or("".to_string()),
+                opening: o.map(|op|op.name).unwrap_or("".to_string()),
                 result: r.to_string(),
             }
         })

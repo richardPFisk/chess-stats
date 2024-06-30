@@ -1,3 +1,5 @@
+pub mod opening;
+
 use std::collections::HashMap;
 use std::option::Option;
 use chesscom_openapi::models::completed_game::Rules;

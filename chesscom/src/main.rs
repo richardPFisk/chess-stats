@@ -5,7 +5,6 @@ use crate::{
     features::{
         count_by_grouped_openings, count_openings, count_results, game_opening::get_all_openings,
         group_openings::group_by_opening_by_root_opening,
-        game_opening::opening
     },
     string_util::get_parent_child_strings,
     ml::tree::get_linfa_tree, models::CompletedGame,
@@ -40,21 +39,22 @@ async fn api_games() -> Result<Vec<CompletedGame>, Box<dyn std::error::Error>> {
 fn results_by_openings<'a>(username: &'a str, games: &'a [CompletedGame]) -> Vec<(String, Vec<(chesscom_openapi::models::player_result::Result, usize)>)> {
     let openings = get_all_openings(username, games);
     println!("{openings:#?}");
-    let parent_child_openings = get_parent_child_strings(openings.clone());
-    println!("{parent_child_openings:#?}");
-    let mut openings_count = count_openings(openings);
-    openings_count.sort_by(|(_, a), (_, b)| b.cmp(a));
+    // let parent_child_openings = get_parent_child_strings(openings.clone());
+    // println!("{parent_child_openings:#?}");
+    // let mut openings_count = count_openings(openings);
+    // openings_count.sort_by(|(_, a), (_, b)| b.cmp(a));
 
-    let results_by_count = count_results(games);
+    // let results_by_count = count_results(games);
 
-    let games_by_opening = group_by_opening_by_root_opening(username, games);
-    let _c = count_by_grouped_openings(games_by_opening.clone());
-    let _results_by_opening = games_by_opening
-        .iter()
-        .map(|(opening, games)| (opening.to_string(), count_results(games)))
-        .collect::<Vec<_>>();
-    // println!("{_results_by_opening:#?}");
-    _results_by_opening
+    // let games_by_opening = group_by_opening_by_root_opening(username, games);
+    // let _c = count_by_grouped_openings(games_by_opening.clone());
+    // let _results_by_opening = games_by_opening
+    //     .iter()
+    //     .map(|(opening, games)| (opening.to_string(), count_results(games)))
+    //     .collect::<Vec<_>>();
+    // // println!("{_results_by_opening:#?}");
+    // _results_by_opening
+    vec![]
 }
 
 #[tokio::main]
