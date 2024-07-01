@@ -13,3 +13,11 @@ Use https://database.lichess.org/
   * most played 
   * least played
   * aggregate opening performance
+
+## Next steps
+* parse tsv
+  * group by family
+  * key by eco code
+  * determine black or white opening
+* design data structure(s)
+  * key by black/white first?
