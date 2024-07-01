@@ -3,7 +3,7 @@ use std::{borrow::Cow, collections::HashMap, io};
 
 use crate::models::{HeaderVisitor, MoveCounter};
 
-pub fn read_pgn_headers(pgn: &str) -> io::Result<Option<HashMap<Cow<str>, Cow<str>>>> {
+pub fn get_headers(pgn: &str) -> io::Result<Option<HashMap<Cow<str>, Cow<str>>>> {
     let mut reader = BufferedReader::new_cursor(&pgn[..]);
 
     let mut header_visitor = HeaderVisitor::new();
@@ -12,7 +12,7 @@ pub fn read_pgn_headers(pgn: &str) -> io::Result<Option<HashMap<Cow<str>, Cow<st
     Ok(headers)
 }
 
-pub fn read_pgn(pgn: &str) -> io::Result<()> {
+pub fn count_moves(pgn: &str) -> io::Result<()> {
     let mut reader = BufferedReader::new_cursor(&pgn[..]);
 
     let mut counter = MoveCounter::new();
