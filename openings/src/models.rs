@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use chess_pgn::models::headers::PgnData;
 use serde::{Deserialize, Serialize};
 
 #[derive(PartialEq, Eq, Hash, Clone)]
@@ -9,14 +10,14 @@ pub enum Side {
 
 #[derive(PartialEq, Eq, Hash, Clone, Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct ECO(String);
+pub struct ECO(pub String);
 
-#[derive(PartialEq, Eq, Hash, Clone, Serialize, Deserialize, Debug)]
+#[derive(PartialEq, Eq, Clone, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Opening {
   pub eco: ECO,
   pub name: String,
-  pub pgn: String,
+  pub pgn: PgnData,
 }
 
 pub struct OpeningLookupByEco {

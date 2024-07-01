@@ -1,12 +1,8 @@
 use std::io;
 pub mod models;
 
-use std::fs::File;
-use std::io::Read;
-
 use csv::ReaderBuilder;
 use models::Opening;
-static OPENING: &str = include_str!("a.tsv");
 
 pub fn read_file(name: &'static str) -> Result<Vec<Opening>, io::Error> {
     let tab_ch = r#"	"#.as_bytes().get(0).unwrap();
@@ -16,6 +12,7 @@ pub fn read_file(name: &'static str) -> Result<Vec<Opening>, io::Error> {
 
     let openings = rdr.into_deserialize()
         .collect::<Result<Vec<Opening>, csv::Error>>()?;
+
     Ok(openings)
 }
 
@@ -31,11 +28,24 @@ pub fn parse_tsv_files() -> Result<Vec<Opening>, io::Error> {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
+
+    use chess_pgn::models::headers::PgnData;
+    use models::ECO;
+
     use super::*;
 
     #[test]
     fn it_works() {
         let result = parse_tsv_files();
         assert_eq!(result.unwrap_or(vec![]).len(), 3469);
+    }
+
+    #[test]
+    fn it_has_data() {
+        let result = parse_tsv_files();
+        let opening = Opening { eco: ECO("A00".to_owned()), name: "Fred".to_owned(), pgn: PgnData { headers: HashMap::new(), moves: vec![] } };
+        let fake_opening = Some(&opening);
+        assert_eq!(result.unwrap_or(vec![]).last(), fake_opening);
     }
 }
