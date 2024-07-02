@@ -1,5 +1,4 @@
 use std::collections::{BTreeMap, HashMap};
-use fp_core::functor::Functor;
 use fp_core::chain::Chain;
 
 use crate::models::CompletedGame;
@@ -21,15 +20,12 @@ pub fn group_by_opening_by_root_opening(username: &str, games: &[CompletedGame])
 
     let grouped_games = games.iter()
         .fold(grouped_games, |mut acc, game| {
-            get_all_openings(username, &[game.clone()])
+            if let Some((parent, game)) = get_all_openings(username, &[game.clone()])
                 .first()
                 .chain(|opening| {
                     child_to_parent_map.get(&opening.name)
                         .map(|parent| (parent.clone(), game.clone()))
-                })
-                .map(|(parent, game)| {
-                    acc.entry(parent).or_insert_with(Vec::new).push(game);
-                });
+                }) { acc.entry(parent).or_default().push(game); }
             acc
         });
 

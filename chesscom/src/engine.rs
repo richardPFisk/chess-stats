@@ -3,7 +3,7 @@ use rschess::{errors::{InvalidFenError, InvalidPgnError}, Board, Fen, Pgn};
 
 pub fn read_fen(fen: &str) -> Result<Board, InvalidFenError> {
   Fen::try_from(fen)
-    .map(|fen|Board::from_fen(fen))
+    .map(Board::from_fen)
 }
 
 pub fn read_pgn(pgn: &str) -> Result<Board, InvalidPgnError> {

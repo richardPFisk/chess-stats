@@ -1,13 +1,8 @@
-use game_storage::read_games;
-use tokio::sync::mpsc::error;
 
 use crate::{
     features::{
-        count_by_grouped_openings, count_openings, count_results, game_opening::get_all_openings,
-        group_openings::group_by_opening_by_root_opening,
-    },
-    string_util::get_parent_child_strings,
-    ml::tree::get_linfa_tree, models::CompletedGame,
+        game_opening::get_all_openings,
+    }, models::CompletedGame,
 };
 
 
@@ -69,13 +64,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let games_count = games.len();
     println!("===> games_count: {games_count}");
     let black_games: Vec<CompletedGame> = games.clone().into_iter().filter(|g| g.black.username == username).collect::<Vec<_>>();
-    let black_openings = results_by_openings(username, &black_games.as_slice());
-    let black_openings_count: usize = black_openings.into_iter().map(|(a, b)| b.len()).into_iter().sum();
+    let black_openings = results_by_openings(username, black_games.as_slice());
+    let black_openings_count: usize = black_openings.into_iter().map(|(a, b)| b.len()).sum();
     println!("{black_openings_count:#?}");
 
     let white_games = games.clone().into_iter().filter(|g| g.white.username == username).collect::<Vec<_>>();
-    let white_openings = results_by_openings(username, &white_games.as_slice());
-    let white_openings_count: usize = white_openings.into_iter().map(|(a, b)| b.len()).into_iter().sum();
+    let white_openings = results_by_openings(username, white_games.as_slice());
+    let white_openings_count: usize = white_openings.into_iter().map(|(a, b)| b.len()).sum();
     println!("{white_openings_count:#?}");
 
     // get_linfa_tree("richardfisk", &g)?;

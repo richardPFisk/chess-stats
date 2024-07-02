@@ -5,7 +5,7 @@ use csv::ReaderBuilder;
 use models::Opening;
 
 pub fn read_file(name: &'static str) -> Result<Vec<Opening>, io::Error> {
-    let tab_ch = r#"	"#.as_bytes().get(0).unwrap();
+    let tab_ch = r#"	"#.as_bytes().first().unwrap();
     let rdr = ReaderBuilder::new().delimiter(*tab_ch).from_path(name)?;
 
     let openings = rdr
@@ -22,7 +22,7 @@ pub fn parse_tsv_files() -> Result<Vec<Opening>, io::Error> {
     let d_openings = read_file("./d.tsv")?;
     let e_openings = read_file("./e.tsv")?;
 
-    Ok(vec![a_openings, b_openings, c_openings, d_openings, e_openings].concat())
+    Ok([a_openings, b_openings, c_openings, d_openings, e_openings].concat())
 }
 
 #[cfg(test)]
@@ -37,7 +37,7 @@ mod tests {
     #[test]
     fn it_works() {
         let result = parse_tsv_files();
-        assert_eq!(result.unwrap_or(vec![]).len(), 3469);
+        assert_eq!(result.unwrap_or_default().len(), 3469);
     }
 
     #[test]
@@ -48,6 +48,7 @@ mod tests {
             name: ChessOpeningName {
                 family: "Sicilian Defense".to_owned(),
                 variation: None,
+                sub_variation: None,
             },
             pgn: PgnData {
                 headers: HashMap::new(),
@@ -55,6 +56,6 @@ mod tests {
             },
         };
         let fake_opening = Some(&opening);
-        assert_eq!(result.unwrap_or(vec![]).last(), fake_opening);
+        assert_eq!(result.unwrap_or_default().last(), fake_opening);
     }
 }

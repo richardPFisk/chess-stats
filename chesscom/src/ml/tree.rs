@@ -4,8 +4,6 @@ use crate::{
     features::{game_opening::game_to_opening, result::result},
     models::CompletedGame,
 };
-use linfa::{traits::Fit, Dataset, DatasetBase};
-use linfa_trees::DecisionTree;
 
 
 

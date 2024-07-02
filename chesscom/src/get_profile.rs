@@ -1,19 +1,12 @@
 use chesscom_openapi::{
     apis::{
-        configuration,
-        default_api::{get_player_profile, get_player_stats, ApiError},
-        urlencode, Error, ResponseContent,
+        default_api::{get_player_profile, get_player_stats},
     },
     models::PlayerStats,
 };
 
-use chrono::{DateTime, Duration, Utc};
-use futures::{
-    stream::{self},
-    StreamExt,
-};
+use chrono::{Duration, Utc};
 
-use std::{option::Option, str::FromStr};
 
 // use crate::{date_iter::get_all_month_years_from_now, models::Games};
 

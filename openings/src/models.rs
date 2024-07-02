@@ -85,6 +85,12 @@ pub struct OpeningLookup {
   pub lookup: HashMap<(Side, ECO), Opening>
 }
 
+impl Default for OpeningLookup {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl OpeningLookup {
   pub fn new() -> Self {
       OpeningLookup {

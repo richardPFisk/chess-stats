@@ -22,7 +22,7 @@ impl<'de> Deserialize<'de> for PgnData {
         let result = reader
             .read_game(&mut header_visitor)
             .map_err(|e| de::Error::custom(e.to_string()))?
-            .unwrap_or_else(|| PgnVisitor::new());
+            .unwrap_or_else(PgnVisitor::new);
         
         Ok(PgnData {
           headers: result.headers,
@@ -37,6 +37,12 @@ pub struct PgnVisitor<'a> {
   pub moves: Vec<String>,
 }
 
+
+impl<'a> Default for PgnVisitor<'a> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl<'a> PgnVisitor<'a> {
   pub fn new() -> PgnVisitor<'a> {

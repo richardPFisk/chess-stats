@@ -4,6 +4,12 @@ pub struct MoveCounter {
   moves: usize,
 }
 
+impl Default for MoveCounter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl MoveCounter {
   pub fn new() -> MoveCounter {
       MoveCounter { moves: 0 }
