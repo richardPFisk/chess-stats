@@ -6,9 +6,13 @@ pub mod black_king;
 pub mod black_pawn;
 pub mod white_king;
 pub mod white_rook;
+pub mod white_pawn;
+pub mod white_bishop;
+pub mod white_queen;
+pub mod white_knight;
 
 use dioxus::prelude::*;
-use shakmaty::{Board, File, Piece, Rank, Square};
+use shakmaty::{Board, File, Rank, Square};
 
 use crate::convert::piece_to_component;
 
@@ -26,8 +30,7 @@ pub fn PieceComponent(props: PieceComponentProps) -> Element {
   let rank = Rank::new(props.rank as u32);
   let square = Square::from_coords(file, rank);
   let piece = props.board.map(|b| b.piece_at(square)).flatten();
-    // let c = piece.map(|p| piece_to_component(p));
-    // let x= board.piece_at(Square::new(0 as u32)).map(|p| piece_to_component(p));
+
   let element: Option<VNode>  = if let Some(p) = piece { piece_to_component(p) } else { None };
   rsx!{
     {element}
