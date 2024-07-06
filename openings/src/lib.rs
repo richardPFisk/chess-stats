@@ -1,5 +1,6 @@
 use std::io;
 pub mod models;
+pub mod trie;
 
 use csv::ReaderBuilder;
 use models::Opening;
@@ -56,6 +57,7 @@ mod tests {
             },
         };
         let fake_opening = Some(&opening);
+        println!("{result:#?}");
         assert_eq!(result.unwrap_or_default().last(), fake_opening);
     }
 }

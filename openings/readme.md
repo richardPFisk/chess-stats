@@ -1,5 +1,7 @@
 ## Openings
 
+### Using the ECO chess opening database
+
 Use https://database.lichess.org/
 
 * create structure useful for looking up:
@@ -12,7 +14,7 @@ Use https://database.lichess.org/
   * least known
   * most played 
   * least played
-  * aggregate opening performance
+  * aggqregate opening performance
 
 ## Next steps
 * parse tsv
@@ -21,3 +23,16 @@ Use https://database.lichess.org/
   * determine black or white opening
 * design data structure(s)
   * key by black/white first?
+
+
+## Features
+* possible continuations
+* heatmaps
+  * my games: 
+    * worst games
+    * best games
+  * book games
+    * worst games
+    * best games
+
+## Fastest way to something useful and compelling

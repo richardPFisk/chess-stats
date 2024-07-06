@@ -1,13 +1,27 @@
+:root {
+  --board-size: min(100vh - 230px, 100vw - 230px);
+}
+
+/* .chess-board {
+  width: 150%;
+  height: 150%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  box-sizing: border-box;
+} */
+
 .board {
-  height: 400px;
-  width: 400px;
+  height: var(--board-size);
+  width: var(--board-size);
   display: block;
   border: 15px solid black;
 }
 
 .piece-square {
-  width: 50px;
-  height: 50px;
+  width: calc(var(--board-size) / 8);
+  height: calc(var(--board-size) / 8);
   box-sizing: border-box;
   position: relative;
   display: flex;

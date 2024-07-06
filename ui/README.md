@@ -1,3 +1,11 @@
+## UI goals
+
+* create board from fen
+* OR, just to be able to handle moves in algebraic notation
+
+* allow navigation between different games
+* show good continuation and bad
+
 # Development
 
 Run the following command in the root of the project to start the Dioxus dev server:

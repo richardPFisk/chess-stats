@@ -5,6 +5,9 @@ use tracing::Level;
 mod app;
 mod route;
 mod board;
+pub mod components;
+mod engine;
+mod convert;
 
 use route::Route;
 
