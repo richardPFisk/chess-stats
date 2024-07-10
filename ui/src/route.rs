@@ -1,5 +1,6 @@
 use dioxus::prelude::*;
-use crate::board::ChessBoard;
+
+use crate::game::ChessGameContainer;
 #[derive(Clone, Routable, Debug, PartialEq)]
 pub enum Route {
     #[route("/")]
@@ -7,7 +8,7 @@ pub enum Route {
     #[route("/blog/:id")]
     Blog { id: i32 },
     #[route("/board")]
-    ChessBoard,
+    ChessGameContainer,
 }
 
 
@@ -15,7 +16,7 @@ pub enum Route {
 fn Blog(id: i32) -> Element {
     rsx! {
         Link { to: Route::Home {}, "Go to counter" }
-        Link { to: Route::ChessBoard {}, "Go to board" }
+        Link { to: Route::ChessGameContainer {  }, "Go to board" }
         "Blog post {id}"
     }
 }

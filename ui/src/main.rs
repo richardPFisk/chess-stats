@@ -8,6 +8,7 @@ mod board;
 pub mod components;
 mod engine;
 mod convert;
+mod game;
 
 use route::Route;
 

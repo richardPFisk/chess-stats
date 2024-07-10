@@ -2,16 +2,22 @@
 use dioxus::html::DragEvent;
 use dioxus::prelude::*;
 use dioxus_elements::geometry::Coordinates;
-use shakmaty::{Board, Position};
+use shakmaty::{Board, Move};
 
 use crate::components::PieceComponent;
-use crate::engine::fen::get_board;
+
+#[derive(PartialEq, Clone, Props)]
+pub struct ChessBoardComponentProps {
+    #[props(!optional)]
+    last_move: Option<Move>,
+    #[props(!optional)]
+    board: Option<Board>,
+}
 
 #[component]
-pub fn ChessBoard() -> Element {
-    let fen = "R7/6p1/7p/8/1p3P2/kr4PK/3R4/8 b - -";
-    let board: Option<Board> = get_board(fen).ok().map(|b| b.board().clone());
-    
+pub fn ChessBoard(chess: ChessBoardComponentProps) -> Element {
+    let board = chess.board;
+
     let mut dragged_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
     let mut dropped_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
 
@@ -56,13 +62,6 @@ pub fn ChessBoard() -> Element {
                       event.stop_propagation();
                     },
                     PieceComponent { board: board.clone(), rank, file }
-                    
-                    // if dropped_piece.read().map(|d| file != d.1 || rank != d.0).and_then(|_|dragged_piece.read().map(|d| Some(file != d.1 || rank != d.0)).unwrap_or(Some(true))).unwrap_or(true) {
-                    //   WhiteKing {}
-                    // }
-                    // else {
-                    //   BlackBishop {}
-                    // }
                 }
               }
             }

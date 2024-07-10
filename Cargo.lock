@@ -471,10 +471,26 @@ version = "0.1.0"
 dependencies = [
  "pgn-reader",
  "serde",
+ "shakmaty",
 ]
 
 [[package]]
-name = "chess-stats"
+name = "chess-ui"
+version = "0.1.0"
+dependencies = [
+ "bnf",
+ "chesscom",
+ "dioxus",
+ "dioxus-logger",
+ "ebnf",
+ "pgn-reader",
+ "pgn_parser",
+ "shakmaty",
+ "tracing",
+]
+
+[[package]]
+name = "chesscom"
 version = "0.1.0"
 dependencies = [
  "chesscom-openapi",
@@ -497,20 +513,6 @@ dependencies = [
  "serde_json",
  "serde_test",
  "tokio",
-]
-
-[[package]]
-name = "chess-ui"
-version = "0.1.0"
-dependencies = [
- "bnf",
- "dioxus",
- "dioxus-logger",
- "ebnf",
- "pgn-reader",
- "pgn_parser",
- "shakmaty",
- "tracing",
 ]
 
 [[package]]
