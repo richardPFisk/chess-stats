@@ -12,13 +12,21 @@ pub struct ChessBoardComponentProps {
     
     #[props(!optional)]
     pub board: Option<Board>,
+    pub is_white: bool,
 }
 
 
 #[component]
 pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
+    let is_white = props.is_white;
     let board = props.board;
-
+    let board = board.map(|mut b|{
+      if is_white {
+        b.flip_vertical();
+      }
+      b
+    });
+    
     let mut dragged_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
     let mut dropped_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
 
@@ -32,9 +40,9 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
         div {
           class: "board",
 
-          for rank in 0usize..8 {
-            for file in (0..8).rev() {
-                div { class: if (rank + file) % 2 == 0 { "piece-square light-square" } else { "piece-square dark-square" },
+          for rank in (0..8).rev() {
+            for file in 0..8 {
+                div { class: if (rank + file) % 2 == if is_white { 0 } else { 1 } { "piece-square light-square" } else { "piece-square dark-square" },
                 span {
                   class: "chess-piece",
                   key: "{file},{rank}",

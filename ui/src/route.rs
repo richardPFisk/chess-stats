@@ -3,11 +3,11 @@ use dioxus::prelude::*;
 use crate::game::ChessGameContainer;
 #[derive(Clone, Routable, Debug, PartialEq)]
 pub enum Route {
-    #[route("/")]
+    #[route("/home")]
     Home {},
     #[route("/blog/:id")]
     Blog { id: i32 },
-    #[route("/board")]
+    #[route("/")]
     ChessGameContainer,
 }
 
