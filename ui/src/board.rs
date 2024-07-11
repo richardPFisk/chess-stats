@@ -96,7 +96,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                                 key: "{file},{rank}",
                                 prevent_default: "ondragover ondrop",
                                 draggable: true,
-                                ondrop: move |event| {
+                                ondrop: move |_event| {
                                     if game_state.write().make_move().is_some() {
                                         tracing::info!("Move made: {:?} to {:?}", 
                                             game_state.read().dragged_piece, 
@@ -110,7 +110,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                                     game_state.write().set_dragged(Some((rank, file)));
                                 },
                                 PieceComponent { 
-                                    chess: Some(game_state.read().chess.clone()), 
+                                    board: Some(game_state.read().board.clone()), 
                                     rank, 
                                     file 
                                 }
