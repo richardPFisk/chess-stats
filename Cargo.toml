@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "chesscom", 
+    "history", 
     "openings", "pgn",
     "ui"
 ]

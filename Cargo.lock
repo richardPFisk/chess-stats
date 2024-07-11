@@ -453,6 +453,32 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "chess-history"
+version = "0.1.0"
+dependencies = [
+ "chesscom-openapi",
+ "chrono",
+ "csv",
+ "fp-core",
+ "futures",
+ "glob",
+ "lazy_static",
+ "linfa",
+ "linfa-trees",
+ "ndarray",
+ "pleco",
+ "pretty_assertions",
+ "regex",
+ "reqwest 0.12.5",
+ "rschess",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "serde_test",
+ "tokio",
+]
+
+[[package]]
 name = "chess-openings"
 version = "0.1.0"
 dependencies = [
@@ -487,32 +513,6 @@ dependencies = [
  "pgn_parser",
  "shakmaty",
  "tracing",
-]
-
-[[package]]
-name = "chesscom"
-version = "0.1.0"
-dependencies = [
- "chesscom-openapi",
- "chrono",
- "csv",
- "fp-core",
- "futures",
- "glob",
- "lazy_static",
- "linfa",
- "linfa-trees",
- "ndarray",
- "pleco",
- "pretty_assertions",
- "regex",
- "reqwest 0.12.5",
- "rschess",
- "serde",
- "serde_derive",
- "serde_json",
- "serde_test",
- "tokio",
 ]
 
 [[package]]

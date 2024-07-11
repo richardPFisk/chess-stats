@@ -33,7 +33,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
           class: "board",
 
           for rank in 0usize..8 {
-            for file in 0usize..8 {
+            for file in (0..8).rev() {
                 div { class: if (rank + file) % 2 == 0 { "piece-square light-square" } else { "piece-square dark-square" },
                 span {
                   class: "chess-piece",
