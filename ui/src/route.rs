@@ -15,9 +15,7 @@ pub enum Route {
 #[component]
 fn Blog(id: i32) -> Element {
     rsx! {
-        Link { to: Route::Home {}, "Go to counter" }
-        Link { to: Route::ChessGameContainer {  }, "Go to board" }
-        "Blog post {id}"
+        
     }
 }
 
@@ -28,10 +26,8 @@ fn Home() -> Element {
 
     rsx! {
         Link {
-            to: Route::Blog {
-                id: count()
-            },
-            "Go to blog"
+            to: Route::ChessGameContainer {},
+            "Go to board"
         }
         div {
             h1 { "High-Five counter: {count}" }
