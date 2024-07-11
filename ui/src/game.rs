@@ -37,7 +37,7 @@ fn create_chess_board_props(pgn: &str) -> Result<ChessGameComponentProps, Box<dy
 struct GameState {
     positions: Vec<Chess>,
     current_index: usize,
-    is_white: bool,
+    is_white_perspective: bool,
 }
 
 impl GameState {
@@ -45,7 +45,7 @@ impl GameState {
         Self {
             positions,
             current_index: 0,
-            is_white: true,
+            is_white_perspective: true,
         }
     }
 
@@ -62,7 +62,7 @@ impl GameState {
     }
 
     fn flip_board(&mut self) {
-        self.is_white = !self.is_white;
+        self.is_white_perspective = !self.is_white_perspective;
     }
 
     fn current_board(&self) -> Option<&Board> {
@@ -85,7 +85,7 @@ pub fn ChessGame(props: ChessGameComponentProps) -> Element {
         div {
             tabindex: "0",
             onkeydown: handle_keydown,
-            ChessBoard { board: game_state.read().current_board().cloned(), is_white: game_state.read().is_white }
+            ChessBoard { board: game_state.read().current_board().cloned(), is_white_perspective: game_state.read().is_white_perspective }
             div { class: "keyboard-hints",
                 p { "Use arrow keys to navigate:" }
                 ul {

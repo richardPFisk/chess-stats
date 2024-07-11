@@ -9,15 +9,15 @@ use crate::components::PieceComponent;
 pub struct ChessBoardComponentProps {
     #[props(!optional)]
     pub board: Option<Board>,
-    pub is_white: bool,
+    pub is_white_perspective: bool,
 }
 
 #[component]
 pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
-    let is_white = props.is_white;
+    let is_white_perspective = props.is_white_perspective;
     let board = props.board;
     let board = board.map(|mut b| {
-        if !is_white {
+        if !is_white_perspective {
             b.flip_vertical();
             b.flip_horizontal();
         }
@@ -45,19 +45,16 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                   key: "{file},{rank}",
                   prevent_default: "ondragover ondrop",
                   draggable: true,
-                    ondrop: move |event| {
+                    ondrop: move |_| {
                       if let (Some(from), Some(to)) = (dragged_piece.read().clone(), dropped_piece.read().clone()) {
-                        tracing::info!("####### Drop ####### {event:#?} ({from:?},{to:?})");
+                        tracing::info!("####### Drop ####### ({from:?},{to:?})");
                         // make_move(from, to);
                       }
                     },
-                    ondragover: move |event| {
+                    ondragover: move |_| {
                       dropped_piece.set(Some((rank, file)));
                       // tracing::info!("Drag ondragover for  ({rank},{file}) {event:#?} ", );
                       // tracing::info!("ondragover");
-                    },
-                    ondragend: move |event| {
-                      // tracing::info!("Drag end for  ({rank},{file}) {event:#?} ", );
                     },
                     ondragstart: move |event: DragEvent| {
                       dragged_piece.set(Some((rank, file)));

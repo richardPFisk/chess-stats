@@ -9,6 +9,7 @@ pub mod components;
 mod engine;
 mod convert;
 mod game;
+mod moves;
 
 use route::Route;
 
