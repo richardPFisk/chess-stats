@@ -8,7 +8,7 @@ use crate::board::ChessBoard;
 
 #[derive(PartialEq, Clone, Props)]
 pub struct ChessGameComponentProps {
-    pub previous_positions: Vec<Board>,
+    pub previous_positions: Vec<Chess>,
     #[props(!optional)]
     pub chess: Option<Chess>,
 }
@@ -28,20 +28,20 @@ fn create_chess_board_props(pgn: &str) -> Result<ChessGameComponentProps, Box<dy
     )?;
 
     Ok(ChessGameComponentProps {
-        previous_positions: positions.iter().map(|c| c.board().clone()).collect(),
+        previous_positions: positions,
         chess: Some(final_pos),
     })
 }
 
 #[derive(Clone)]
 struct GameState {
-    positions: Vec<Board>,
+    positions: Vec<Chess>,
     current_index: usize,
     is_white: bool,
 }
 
 impl GameState {
-    fn new(positions: Vec<Board>) -> Self {
+    fn new(positions: Vec<Chess>) -> Self {
         Self {
             positions,
             current_index: 0,
@@ -65,7 +65,7 @@ impl GameState {
         self.is_white = !self.is_white;
     }
 
-    fn current_board(&self) -> Option<&Board> {
+    fn current_board(&self) -> Option<&Chess> {
         self.positions.get(self.current_index)
     }
 }
@@ -85,7 +85,7 @@ pub fn ChessGame(props: ChessGameComponentProps) -> Element {
         div {
             tabindex: "0",
             onkeydown: handle_keydown,
-            ChessBoard { board: game_state.read().current_board().cloned(), is_white: game_state.read().is_white }
+            ChessBoard { chess: game_state.read().current_board().cloned(), is_white: game_state.read().is_white }
             div { class: "keyboard-hints",
                 p { "Use arrow keys to navigate:" }
                 ul {
