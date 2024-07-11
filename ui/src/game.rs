@@ -2,7 +2,7 @@ use std::error::Error;
 
 use chess_pgn::reader::get_san_moves;
 use dioxus::prelude::*;
-use shakmaty::{Board, Chess, Position};
+use shakmaty::{Chess, Position};
 
 use crate::board::ChessBoard;
 
