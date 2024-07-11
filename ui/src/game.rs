@@ -2,7 +2,7 @@ use std::error::Error;
 
 use chess_pgn::reader::get_san_moves;
 use dioxus::prelude::*;
-use shakmaty::{Chess, Position};
+use shakmaty::{Board, Chess, Position};
 
 use crate::board::ChessBoard;
 
@@ -65,8 +65,8 @@ impl GameState {
         self.is_white = !self.is_white;
     }
 
-    fn current_board(&self) -> Option<&Chess> {
-        self.positions.get(self.current_index)
+    fn current_board(&self) -> Option<&Board> {
+        self.positions.get(self.current_index).map(|c| c.board())
     }
 }
 
@@ -85,7 +85,7 @@ pub fn ChessGame(props: ChessGameComponentProps) -> Element {
         div {
             tabindex: "0",
             onkeydown: handle_keydown,
-            ChessBoard { chess: game_state.read().current_board().cloned(), is_white: game_state.read().is_white }
+            ChessBoard { board: game_state.read().current_board().cloned(), is_white: game_state.read().is_white }
             div { class: "keyboard-hints",
                 p { "Use arrow keys to navigate:" }
                 ul {
