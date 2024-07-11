@@ -9,7 +9,6 @@ use crate::board::ChessBoard;
 #[derive(PartialEq, Clone, Props)]
 pub struct ChessGameComponentProps {
     pub previous_positions: Vec<Board>,
-    pub next_positions: Vec<Board>,
     #[props(!optional)]
     pub chess: Option<Chess>,
 }
@@ -30,7 +29,6 @@ fn create_chess_board_props(pgn: &str) -> Result<ChessGameComponentProps, Box<dy
 
     Ok(ChessGameComponentProps {
         previous_positions: positions.iter().map(|c| c.board().clone()).collect(),
-        next_positions: vec![], // You can fill this if you have information about future positions
         chess: Some(final_pos),
     })
 }
@@ -106,6 +104,6 @@ pub fn ChessGameContainer() -> Element {
     let props = create_chess_board_props(pgn).unwrap();
 
     rsx! {
-      ChessGame { chess: props.chess, previous_positions: props.previous_positions, next_positions: props.next_positions }
+      ChessGame { chess: props.chess, previous_positions: props.previous_positions }
     }
 }
