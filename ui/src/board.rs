@@ -1,22 +1,23 @@
 
+
 use dioxus::html::DragEvent;
 use dioxus::prelude::*;
 use dioxus_elements::geometry::Coordinates;
-use shakmaty::{Board, Move};
+use shakmaty::{Board};
 
 use crate::components::PieceComponent;
 
 #[derive(PartialEq, Clone, Props)]
 pub struct ChessBoardComponentProps {
+    
     #[props(!optional)]
-    last_move: Option<Move>,
-    #[props(!optional)]
-    board: Option<Board>,
+    pub board: Option<Board>,
 }
 
+
 #[component]
-pub fn ChessBoard(chess: ChessBoardComponentProps) -> Element {
-    let board = chess.board;
+pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
+    let board = props.board;
 
     let mut dragged_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
     let mut dropped_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);

@@ -8,6 +8,7 @@ edition = "2021"
 
 [dependencies]
 chesscom = { path = "../chesscom"}
+chess-pgn = { path = "../pgn"}
 dioxus = { version = "0.5", features = ["web", "router"] }
 
 # Debug

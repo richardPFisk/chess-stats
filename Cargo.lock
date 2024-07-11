@@ -479,6 +479,7 @@ name = "chess-ui"
 version = "0.1.0"
 dependencies = [
  "bnf",
+ "chess-pgn",
  "chesscom",
  "dioxus",
  "dioxus-logger",
