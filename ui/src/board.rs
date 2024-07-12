@@ -27,7 +27,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
     let mut dragged_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
     let mut dropped_piece: Signal<Option<(usize, usize)>> = use_signal(|| None);
     let mut drag_position: Signal<Option<(f64, f64)>> = use_signal(|| None);
-
+    let mut drag_offset: Signal<Option<(f64, f64)>> = use_signal(|| None);
   //   let style_attr = use_memo(move || {
   //     let dragged = dragged_piece.read();
   //     let position = drag_position.read();
@@ -72,27 +72,37 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                                     dropped_piece.set(Some((rank, file)));
                                 },
                                 ondragstart: move |event: DragEvent| {
-                                    dragged_piece.set(Some((rank, file)));
-                                    let coords: Coordinates = event.coordinates();
-                                    drag_position.set(Some((coords.client().x as f64, coords.client().y as f64)));
-                                },
-                                ondrag: move |event: DragEvent| {
-                                    let coords: Coordinates = event.coordinates();
-                                    drag_position.set(Some((coords.client().x as f64, coords.client().y as f64)));
-                                },
-                                style: use_memo(move || {
-                                  let dragged = dragged_piece.read();
-                                  let position = drag_position.read();
-                                  if let (Some((r, f)), Some((x, y))) = (*dragged, *position) {
-                                      if r == rank && f == file {
-                                          format!("transform: translate({}px, {}px);", x, y)
-                                      } else {
-                                          String::new()
-                                      }
-                                  } else {
-                                      String::new()
-                                  }
-                              }),
+                                  dragged_piece.set(Some((rank, file)));
+                                  let client_point = event.client_coordinates();
+                                  let element_point = event.element_coordinates();
+                                  // Calculate the offset as the difference between client and element coordinates
+                                  let offset = (
+                                      client_point.x as f64 - element_point.x as f64,
+                                      client_point.y as f64 - element_point.y as f64
+                                  );
+                                  drag_offset.set(Some(offset));
+                                  drag_position.set(Some(client_point.into()));
+                              },
+                              ondrag: move |event: DragEvent| {
+                                  let client_point = event.client_coordinates();
+                                  drag_position.set(Some(client_point.into()));
+                              },
+                              style: use_memo(move || {
+                                let dragged = dragged_piece.read();
+                                let position = drag_position.read();
+                                let offset = drag_offset.read();
+                                if let (Some((r, f)), Some(pos), Some(off)) = (*dragged, *position, *offset) {
+                                    if r == rank && f == file {
+                                        format!("transform: translate({}px, {}px);", 
+                                                pos.0 as f64 - off.0 as f64, 
+                                                pos.1 as f64 - off.1 as f64)
+                                    } else {
+                                        String::new()
+                                    }
+                                } else {
+                                    String::new()
+                                }
+                            }),
                                 PieceComponent { board: board.clone(), rank, file }
                             }
                         }
