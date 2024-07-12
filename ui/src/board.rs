@@ -1,5 +1,5 @@
-use dioxus::prelude::*;
 use dioxus::html::MouseEvent;
+use dioxus::prelude::*;
 use shakmaty::Board;
 
 use crate::components::PieceComponent;
@@ -13,14 +13,12 @@ pub struct ChessBoardComponentProps {
 
 #[component]
 pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
-        // -----------
+    // -----------
 
-
-        let mut current_text = use_signal(String::new);
-        let mut mounted_text_div: Signal<Option<MountedEvent>> = use_signal(|| None);
-        let mut rendered_size_str = use_signal(String::new);
-        let mut rendered_size: Signal<f64> = use_signal(|| 0_f64);
-    
+    let mut current_text = use_signal(String::new);
+    let mut mounted_text_div: Signal<Option<MountedEvent>> = use_signal(|| None);
+    let mut rendered_size_str = use_signal(String::new);
+    let mut rendered_size: Signal<f64> = use_signal(|| 0_f64);
 
     let is_white_perspective = props.is_white_perspective;
     let board = props.board;
@@ -49,7 +47,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
 
         let offset = (
             client_point.x as f64 - (file as f64 * piece_size) - element_point.x,
-            client_point.y as f64 - ((7_f64 - rank as f64) * piece_size) - element_point.y
+            client_point.y as f64 - ((7_f64 - rank as f64) * piece_size) - element_point.y,
         );
         drag_offset.set(Some(offset));
         drag_position.set(Some((client_point.x as f64, client_point.y as f64)));
@@ -72,7 +70,6 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
         drag_offset.set(None);
     };
 
-
     use_effect(move || {
         // If we have mounted the text div, we can read the width of the div
         if let Some(div) = mounted_text_div() {
@@ -81,7 +78,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
             spawn(async move {
                 let bounding_box = div.get_client_rect().await;
                 rendered_size_str.set(format!("{text} is {bounding_box:?}"));
-                rendered_size.set(bounding_box.ok().map(|bb|bb.size.width).unwrap_or(0_f64));
+                rendered_size.set(bounding_box.ok().map(|bb| bb.size.width).unwrap_or(0_f64));
             });
         }
     });
@@ -97,7 +94,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
             class: "chess-board",
             onmousemove: on_mouse_move,
             onmouseup: on_mouse_up,
-            
+
             div {
                 class: "board",
 
@@ -150,8 +147,8 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                     let position = drag_position.read();
                     let offset = drag_offset.read();
                     if let (Some(pos), Some(off), Some(_)) = (*position, *offset, *dragged_piece.read()) {
-                        format!("position: fixed; left: {}px; top: {}px; width: {}px; height: {}px; pointer-events: none; z-index: 1000;", 
-                                pos.0 - off.0, 
+                        format!("position: fixed; left: {}px; top: {}px; width: {}px; height: {}px; pointer-events: none; z-index: 1000;",
+                                pos.0 - off.0,
                                 pos.1 - off.1,
                                 piece_size,
                                 piece_size)
@@ -159,7 +156,7 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                         "display: none;".to_string()
                     }
                 }),
-                PieceComponent { 
+                PieceComponent {
                     board: board.clone(),
                     rank: dragged_piece.read().map(|(r, _)| r).unwrap_or(0),
                     file: dragged_piece.read().map(|(_, f)| f).unwrap_or(0)
