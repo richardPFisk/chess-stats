@@ -1,29 +1,35 @@
 use dioxus::html::MouseEvent;
 use dioxus::prelude::*;
-use shakmaty::Board;
+use shakmaty::{Board, Move};
 
-use crate::components::PieceComponent;
+use crate::{components::PieceComponent, game::{ChessGameComponentProps, GameState}};
 
 #[derive(PartialEq, Clone, Props)]
 pub struct ChessBoardComponentProps {
     #[props(!optional)]
     pub board: Option<Board>,
     pub is_white_perspective: bool,
+    // on_move_event: Signal<((usize, usize), (usize, usize))>,
 }
 
 #[component]
-pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
+pub fn ChessBoard(mut game_state: Signal<GameState>) -> Element {
     // -----------
+    // let on_move = props.on_move_event;
+
+    use_future(move || async move {
+      //  on_mov = ((1_usize,2_usize),(3_usize,4_usize));
+    });
 
     let mut current_text = use_signal(String::new);
     let mut mounted_text_div: Signal<Option<MountedEvent>> = use_signal(|| None);
     let mut rendered_size_str = use_signal(String::new);
     let mut rendered_size: Signal<f64> = use_signal(|| 0_f64);
 
-    let is_white_perspective = props.is_white_perspective;
-    let board = props.board;
+    // let is_white_perspective = props.
+    let board = game_state.read().current_board().cloned();
     let board = board.map(|mut b| {
-        if !is_white_perspective {
+        if !game_state.read().is_white_perspective {
             b.flip_vertical();
             b.flip_horizontal();
         }
@@ -59,12 +65,19 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
             drag_position.set(Some((client_point.x as f64, client_point.y as f64)));
         }
     };
-
+    // let x = props.on_move_event.write();
+    let onmouseup_handler = move |e| {
+      let to = dragged_over_piece.read().unwrap();
+      let from = dragged_piece.read().unwrap();
+      tracing::info!("###FROM ({from:#?})");
+      tracing::info!("TO ({to:#?})");
+      let new_position = game_state.write().move_piece(from, to);
+      tracing::info!("{new_position:#?}");
+    };
     let on_mouse_up = move |_| {
-        if let (Some(from), Some(to)) = (dragged_piece.read().clone(), calculate_drop_position()) {
-            tracing::info!("####### Drop ####### ({from:?},{to:?})");
-            // make_move(from, to);
-        }
+        // if let Some(from) = dragged_piece.read() {
+        //   // from
+        // }
         dragged_piece.set(None);
         drag_position.set(None);
         drag_offset.set(None);
@@ -109,20 +122,11 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
                                 onmounted: move |element| {
                                   mounted_text_div.set(Some(element.clone()));
                                 },
-                                onmouseup: move |e| {
-                                  let x = dragged_over_piece.read();
-                                  tracing::info!("{x:#?}");
-                                },
+                                onmouseup: onmouseup_handler,
                                 onmousedown: move |e| on_mouse_down(e, rank, file),
                                 onmouseover: move |e| {
-                                  dragged_over_piece.set(Some((file, rank)));
+                                  dragged_over_piece.set(Some((rank, file)));
                                 },
-                                ondrop: move |event| {
-                                                        if let (Some(from), Some(to)) = (dragged_piece.read().clone(), dragged_piece.read().clone()) {
-                                                          tracing::info!("####### Drop ####### {event:#?} ({from:?},{to:?})");
-                                                          // make_move(from, to);
-                                                        }
-                                                      },
                                 style: use_memo(move || {
                                     let dragged = dragged_piece.read();
                                     if let Some((r, f)) = *dragged {
@@ -164,10 +168,4 @@ pub fn ChessBoard(props: ChessBoardComponentProps) -> Element {
             }
         }
     }
-}
-
-fn calculate_drop_position() -> Option<(usize, usize)> {
-    // Implement this function to calculate the square where the piece is dropped
-    // based on the current drag_position
-    None
 }

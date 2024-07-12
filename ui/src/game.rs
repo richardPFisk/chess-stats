@@ -4,7 +4,7 @@ use chess_pgn::reader::get_san_moves;
 use dioxus::prelude::*;
 use shakmaty::{Board, Chess, Position};
 
-use crate::board::ChessBoard;
+use crate::{board::ChessBoard, moves::make_move};
 
 #[derive(PartialEq, Clone, Props)]
 pub struct ChessGameComponentProps {
@@ -34,14 +34,14 @@ fn create_chess_board_props(pgn: &str) -> Result<ChessGameComponentProps, Box<dy
 }
 
 #[derive(Clone)]
-struct GameState {
-    positions: Vec<Chess>,
-    current_index: usize,
-    is_white_perspective: bool,
+pub struct GameState {
+    pub positions: Vec<Chess>,
+    pub current_index: usize,
+    pub is_white_perspective: bool,
 }
 
 impl GameState {
-    fn new(positions: Vec<Chess>) -> Self {
+    pub fn new(positions: Vec<Chess>) -> Self {
         Self {
             positions,
             current_index: 0,
@@ -49,24 +49,39 @@ impl GameState {
         }
     }
 
-    fn move_forward(&mut self) {
+    pub fn move_forward(&mut self) {
         if self.current_index < self.positions.len() - 1 {
             self.current_index += 1;
         }
     }
 
-    fn move_backward(&mut self) {
+    pub fn move_backward(&mut self) {
         if self.current_index > 0 {
             self.current_index -= 1;
         }
     }
 
-    fn flip_board(&mut self) {
+    pub fn flip_board(&mut self) {
         self.is_white_perspective = !self.is_white_perspective;
     }
 
-    fn current_board(&self) -> Option<&Board> {
+    pub fn current_board(&self) -> Option<&Board> {
         self.positions.get(self.current_index).map(|c| c.board())
+    }
+
+    fn current_position(&self) -> Option<&Chess> {
+        self.positions.get(self.current_index)
+    }
+
+    pub fn move_piece(&mut self, from: (usize, usize), to: (usize, usize)) -> Option<Chess> {
+        if let Some(position) = self.current_position() {
+            let new_position = make_move(position.clone(), to, from, self.is_white_perspective);
+            if let Some(p) = new_position {
+                self.positions[self.current_index] = p.clone();
+                return Some(p)
+            }
+        }
+        None
     }
 }
 
@@ -85,7 +100,7 @@ pub fn ChessGame(props: ChessGameComponentProps) -> Element {
         div {
             tabindex: "0",
             onkeydown: handle_keydown,
-            ChessBoard { board: game_state.read().current_board().cloned(), is_white_perspective: game_state.read().is_white_perspective }
+            ChessBoard { game_state: game_state }
             div { class: "keyboard-hints",
                 p { "Use arrow keys to navigate:" }
                 ul {

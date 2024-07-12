@@ -2,9 +2,9 @@ use shakmaty::{Chess, File, Move, Position, Rank, Square};
 
 pub fn get_square(is_white_perspective: bool, rank_int: usize, file_int: usize) -> Square {
   let (file, rank) = if is_white_perspective {
-      (file_int, 7 - rank_int)
+      (file_int, rank_int)
   } else {
-      (7 - file_int, rank_int)
+      (7 - file_int, 7 - rank_int)
   };
   Square::from_coords(File::new(file as u32), Rank::new(rank as u32))
 }
@@ -12,7 +12,8 @@ pub fn get_square(is_white_perspective: bool, rank_int: usize, file_int: usize) 
 pub fn make_move(chess: Chess, to: (usize, usize), from: (usize, usize), is_white_perspective: bool) -> Option<Chess> {
     let from_square = get_square(is_white_perspective, from.0, from.1);
     let to_square = get_square(is_white_perspective, to.0, to.1);
-    
+    tracing::info!("from_square ({from_square:#?})");
+    tracing::info!("to_square ({to_square:#?})");
     let current_position = chess;
     let moves = current_position.legal_moves();
     
