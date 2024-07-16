@@ -6,3 +6,4 @@ members = [
 ]
 exclude = ["crates/foo", "path/to/other"]
 resolver = "2"
+msrv = "1.79.0"
