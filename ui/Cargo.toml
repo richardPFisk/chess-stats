@@ -17,5 +17,4 @@ dioxus-logger = "0.5.0"
 shakmaty = "0.27.0"
 pgn-reader = "0.26.0"
 pgn_parser = "0.2.2"
-bnf = "0.5.0"
-ebnf = "0.1.4"
+timecat = { version = "1.28.3", default-features = false, features = ["engine", "wasm"] }

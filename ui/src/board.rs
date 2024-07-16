@@ -1,12 +1,15 @@
 use dioxus::html::MouseEvent;
 use dioxus::prelude::*;
 
-use crate::{components::PieceComponent, game::GameState};
+use crate::{components::PieceComponent, eval::board_eval, game::GameState};
 
 #[component]
 pub fn ChessBoard(mut game_state: Signal<GameState>) -> Element {
     let mut mounted_text_div: Signal<Option<MountedEvent>> = use_signal(|| None);
     let mut rendered_size: Signal<f64> = use_signal(|| 0_f64);
+
+    let position = game_state.read().current_position().cloned();
+    let board_value = board_eval(position).map(|v| v as f64 / 100.0_f64);
 
     let board = game_state.read().current_board().cloned();
     let board = board.map(|mut b| {
@@ -71,7 +74,9 @@ pub fn ChessBoard(mut game_state: Signal<GameState>) -> Element {
             class: "chess-board",
             onmousemove: on_mouse_move,
             onmouseup: reset_dragged,
-
+            div {
+              "{board_value:#?}"
+            }
             div {
                 class: "board",
 

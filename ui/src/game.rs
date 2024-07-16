@@ -69,7 +69,7 @@ impl GameState {
         self.positions.get(self.current_index).map(|c| c.board())
     }
 
-    fn current_position(&self) -> Option<&Chess> {
+    pub fn current_position(&self) -> Option<&Chess> {
         self.positions.get(self.current_index)
     }
 
@@ -115,7 +115,31 @@ pub fn ChessGame(props: ChessGameComponentProps) -> Element {
 
 #[component]
 pub fn ChessGameContainer() -> Element {
-    let pgn = "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2022.04.02\"]\n[Round \"-\"]\n[White \"kgfritz\"]\n[Black \"Richardfisk\"]\n[Result \"1-0\"]\n[CurrentPosition \"R7/6p1/7p/8/1p3P2/kr4PK/3R4/8 b - -\"]\n[Timezone \"UTC\"]\n[ECO \"C00\"]\n[ECOUrl \"https://www.chess.com/openings/French-Defense-Knight-Variation-2...d5\"]\n[UTCDate \"2022.04.02\"]\n[UTCTime \"03:08:45\"]\n[WhiteElo \"1063\"]\n[BlackElo \"1032\"]\n[TimeControl \"300+5\"]\n[Termination \"kgfritz won by checkmate\"]\n[StartTime \"03:08:45\"]\n[EndDate \"2022.04.02\"]\n[EndTime \"03:23:39\"]\n[Link \"https://www.chess.com/game/live/42607780297\"]\n\n1. e4 {[%clk 0:05:01.6]} 1... e6 {[%clk 0:05:04.3]} 2. Nf3 {[%clk 0:04:58.3]} 2... d5 {[%clk 0:05:08.4]} 3. c3 {[%clk 0:04:57.5]} 3... dxe4 {[%clk 0:05:07.2]} 4. Ne5 {[%clk 0:04:58.8]} 4... Qf6 {[%clk 0:04:52.4]} 5. Qa4+ {[%clk 0:04:51.9]} 5... Bd7 {[%clk 0:04:41.3]} 6. Qxe4 {[%clk 0:04:53.5]} 6... Bc6 {[%clk 0:04:22.4]} 7. Nxc6 {[%clk 0:04:50.3]} 7... Nxc6 {[%clk 0:04:24.7]} 8. Bb5 {[%clk 0:04:51.7]} 8... Ne7 {[%clk 0:03:58.4]} 9. d4 {[%clk 0:04:51.2]} 9... a6 {[%clk 0:03:46.4]} 10. Ba4 {[%clk 0:04:51.5]} 10... b5 {[%clk 0:03:41]} 11. Bb3 {[%clk 0:04:52.4]} 11... Rd8 {[%clk 0:02:51.2]} 12. Be3 {[%clk 0:04:53.6]} 12... Nd5 {[%clk 0:02:47.8]} 13. Bxd5 {[%clk 0:04:55]} 13... Rxd5 {[%clk 0:02:50.4]} 14. Nd2 {[%clk 0:04:55.2]} 14... b4 {[%clk 0:02:40.4]} 15. c4 {[%clk 0:04:54]} 15... Rd7 {[%clk 0:02:26.4]} 16. O-O {[%clk 0:04:52.7]} 16... Nd8 {[%clk 0:02:11.5]} 17. Nf3 {[%clk 0:04:46.7]} 17... Be7 {[%clk 0:01:52]} 18. Ne5 {[%clk 0:04:45]} 18... Rd6 {[%clk 0:01:50.3]} 19. Ng4 {[%clk 0:04:42.5]} 19... Qg6 {[%clk 0:01:42.1]} 20. Qxg6 {[%clk 0:04:40.2]} 20... fxg6 {[%clk 0:01:46]} 21. Bf4 {[%clk 0:04:40.3]} 21... Rxd4 {[%clk 0:01:45.7]} 22. g3 {[%clk 0:04:35.3]} 22... Rxc4 {[%clk 0:01:36.9]} 23. Ne3 {[%clk 0:04:34.1]} 23... Rc6 {[%clk 0:01:18.6]} 24. b3 {[%clk 0:04:32.7]} 24... O-O {[%clk 0:01:13.5]} 25. Nc4 {[%clk 0:04:32.9]} 25... Nb7 {[%clk 0:00:37.8]} 26. Ne5 {[%clk 0:04:34.4]} 26... Rc2 {[%clk 0:00:25.7]} 27. Nd7 {[%clk 0:04:31.3]} 27... Rd8 {[%clk 0:00:19.8]} 28. Rad1 {[%clk 0:04:25.6]} 28... Nd6 {[%clk 0:00:21.3]} 29. Bxd6 {[%clk 0:04:23.9]} 29... cxd6 {[%clk 0:00:20.1]} 30. Nb6 {[%clk 0:04:23.6]} 30... d5 {[%clk 0:00:19.1]} 31. Rfe1 {[%clk 0:04:21.5]} 31... Bf6 {[%clk 0:00:21.8]} 32. Rxe6 {[%clk 0:04:18]} 32... Bc3 {[%clk 0:00:22.2]} 33. Nxd5 {[%clk 0:04:14.7]} 33... Rxd5 {[%clk 0:00:23.2]} 34. Rxd5 {[%clk 0:04:16.1]} 34... Rc1+ {[%clk 0:00:28.1]} 35. Kg2 {[%clk 0:04:18.7]} 35... h6 {[%clk 0:00:28.1]} 36. Rd8+ {[%clk 0:04:16.8]} 36... Kh7 {[%clk 0:00:32]} 37. Ree8 {[%clk 0:04:19.8]} 37... g5 {[%clk 0:00:32.5]} 38. Rh8+ {[%clk 0:04:19.4]} 38... Kg6 {[%clk 0:00:35.4]} 39. Rd6+ {[%clk 0:04:21.7]} 39... Bf6 {[%clk 0:00:34.8]} 40. h4 {[%clk 0:04:13]} 40... Ra1 {[%clk 0:00:38.1]} 41. hxg5 {[%clk 0:04:08.8]} 41... Kxg5 {[%clk 0:00:38.3]} 42. Rd5+ {[%clk 0:04:06.7]} 42... Kg6 {[%clk 0:00:41.9]} 43. Ra5 {[%clk 0:04:01.8]} 43... Bd4 {[%clk 0:00:38.4]} 44. Rxa6+ {[%clk 0:04:03.2]} 44... Kg5 {[%clk 0:00:41.7]} 45. f4+ {[%clk 0:03:59.1]} 45... Kf5 {[%clk 0:00:39]} 46. Rf8+ {[%clk 0:03:58.7]} 46... Ke4 {[%clk 0:00:37.8]} 47. Re6+ {[%clk 0:03:57.7]} 47... Kd3 {[%clk 0:00:40.8]} 48. Rd8 {[%clk 0:03:51.8]} 48... Rxa2+ {[%clk 0:00:44]} 49. Kh3 {[%clk 0:03:54.1]} 49... Rb2 {[%clk 0:00:35.7]} 50. Red6 {[%clk 0:03:55.3]} 50... Rxb3 {[%clk 0:00:24.1]} 51. Rxd4+ {[%clk 0:03:57.8]} 51... Kc2 {[%clk 0:00:24.4]} 52. Rc8+ {[%clk 0:03:57.9]} 52... Kb2 {[%clk 0:00:26.8]} 53. Rd2+ {[%clk 0:04:00.4]} 53... Ka3 {[%clk 0:00:29.7]} 54. Ra8# {[%clk 0:03:58.7]} 1-0\n";
+    let pgn = r#"[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2024.05.28"]
+[Round "?"]
+[White "Tibiao"]
+[Black "Richardfisk"]
+[Result "0-1"]
+[ECO "C01"]
+[WhiteElo "1260"]
+[BlackElo "1301"]
+[TimeControl "900+10"]
+[EndTime "16:29:13 PDT"]
+[Termination "Richardfisk won by resignation"]
+
+1. e4 e6 2. d4 d5 3. exd5 exd5 4. Nc3 Nf6 5. Nf3 Bb4 6. Bd2 O-O 7. Bd3 Bg4 8.
+O-O c5 9. dxc5 Bxc5 10. h3 Bh5 11. Be2 Re8 12. Bg5 Nbd7 13. Re1 Qb6 14. Rf1 Ne4
+15. Bh4 Qxb2 16. Nxd5 Bxf3 17. Bxf3 g5 18. Bxe4 Rxe4 19. Bxg5 Qe5 20. Bf4 Qf5
+21. Qg4+ Qg6 22. Qxd7 Rae8 23. Qg4 Bd4 24. Qxg6+ hxg6 25. Rab1 b6 26. Be3 Bg7
+27. Rb4 R4e5 28. Nf4 Ra5 29. a4 Rc8 30. c4 g5 31. Nd5 Bf8 32. Nf6+ Kg7 33. Nh5+
+Kg6 34. c5 Kxh5 35. g4+ Kg6 36. Re4 Bxc5 37. Rc1 Rd8 38. Bxc5 Rxc5 39. Rxc5 bxc5
+40. Rc4 Rc8 41. Kg2 f5 42. f3 f4 43. Kf2 Kf6 44. Ke2 Ke5 45. Re4+ Kf6 46. Kd3 a5
+47. Kc4 Rc7 48. Re8 Kf7 49. Re5 Kf6 50. Rxc5 Rxc5+ 51. Kxc5 Ke5 52. Kb5 Kd4 53.
+Kxa5 Ke3 54. Kb6 Kxf3 55. a5 Kg3 56. a6 f3 57. a7 f2 58. a8=Q f1=Q 59. Qb8+ Kxh3
+60. Qh8+ Kxg4 61. Qg7 Qb1+ 62. Kc5 Qf5+ 63. Kd4 Qf2+ 64. Kd5 Qa2+ 65. Kc6 Qa6+
+66. Kd5 Qd3+ 67. Kc6 Qf3+ 68. Kb5 Qf5+ 69. Kc6 Kf4 70. Qc3 Qc8+ 0-1"#;
     let props = create_chess_board_props(pgn).unwrap();
 
     rsx! {
