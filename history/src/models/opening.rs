@@ -1,3 +1,5 @@
+use std::fmt;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -13,13 +15,15 @@ pub struct Opening {
     pub side: Side,
 }
 
+impl fmt::Display for Opening {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} ({})", self.name, self.side.to_string().to_lowercase())
+    }
+}
+
 impl Opening {
     pub fn new(url: String, name: String, side: Side) -> Self {
         Opening { url, name, side }
-    }
-
-    pub fn to_string(&self) -> String {
-        format!("{} ({})", self.name, self.side.to_string().to_lowercase())
     }
 }
 
