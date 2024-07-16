@@ -33,17 +33,17 @@ pub fn ChessBoard(mut game_state: Signal<GameState>) -> Element {
         let element_point = event.element_coordinates();
 
         let offset = (
-            client_point.x as f64 - (file as f64 * piece_size) - element_point.x,
-            client_point.y as f64 - ((7_f64 - rank as f64) * piece_size) - element_point.y,
+            client_point.x - (file as f64 * piece_size) - element_point.x,
+            client_point.y - ((7_f64 - rank as f64) * piece_size) - element_point.y,
         );
         drag_offset.set(Some(offset));
-        drag_position.set(Some((client_point.x as f64, client_point.y as f64)));
+        drag_position.set(Some((client_point.x, client_point.y)));
     };
 
     let on_mouse_move = move |event: MouseEvent| {
         if dragged_piece.read().is_some() {
             let client_point = event.client_coordinates();
-            drag_position.set(Some((client_point.x as f64, client_point.y as f64)));
+            drag_position.set(Some((client_point.x, client_point.y)));
         }
     };
     let onmouseup_handler = move |_| {

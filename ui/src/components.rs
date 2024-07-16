@@ -30,7 +30,7 @@ pub fn PieceComponent(props: PieceComponentProps) -> Element {
   let rank = Rank::new(props.rank as u32);
   let square = Square::from_coords(file, rank);
   
-  let piece = props.board.map(|b| b.piece_at(square)).flatten();
+  let piece = props.board.and_then(|b| b.piece_at(square));
 
   let element: Option<VNode>  = if let Some(p) = piece { piece_to_component(p) } else { None };
   rsx!{

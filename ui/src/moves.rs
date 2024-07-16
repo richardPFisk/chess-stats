@@ -27,7 +27,7 @@ pub fn make_move(chess: Chess, to: (usize, usize), from: (usize, usize), is_whit
     }) {
         let new_position = current_position.clone();
         
-        return new_position.play(&chess_move).ok();
+        new_position.play(&chess_move).ok()
     }
     else {
         None

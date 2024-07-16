@@ -4,8 +4,6 @@
 use std::fmt::{self};
 
 use shakmaty::fen::Fen;
-use shakmaty::Bitboard;
-use shakmaty::Position;
 use timecat::Board;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
@@ -32,5 +30,5 @@ pub fn board_eval(position: Option<shakmaty::Chess>) -> Option<i32> {
         return Some(evaluation as i32)
     }
 
-    return None;
+    None
 }
