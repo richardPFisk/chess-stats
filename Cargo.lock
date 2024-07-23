@@ -513,6 +513,7 @@ dependencies = [
 name = "chess-ui"
 version = "0.1.0"
 dependencies = [
+ "chess-openings",
  "chess-pgn",
  "dioxus",
  "dioxus-logger",

@@ -6,6 +6,10 @@ Use https://database.lichess.org/
 
 * create structure useful for looking up:
   * family
+    * get all families
+    * filter by family
+    * lookup by moves
+    * lookup by names
   * is black/white opening
     * the end move in the shortest example of the opening determines whether the opening is determined by black or white
   * worst opening

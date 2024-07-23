@@ -1,9 +1,10 @@
 use std::io;
+
 pub mod models;
 pub mod trie;
 
 use csv::ReaderBuilder;
-use models::Opening;
+use models::{ChessOpeningName, Opening};
 
 pub fn read_file(name: &'static str) -> Result<Vec<Opening>, io::Error> {
     let tab_ch = r#"	"#.as_bytes().first().unwrap();
@@ -26,6 +27,10 @@ pub fn parse_tsv_files() -> Result<Vec<Opening>, io::Error> {
     Ok([a_openings, b_openings, c_openings, d_openings, e_openings].concat())
 }
 
+
+pub fn filter_by_opening_family(opening_filter: ChessOpeningName, openings: Vec<Opening>) -> Vec<Opening> {
+    openings.into_iter().filter(|o|{ o.name.family == opening_filter.family }).collect()
+}
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
@@ -44,20 +49,25 @@ mod tests {
     #[test]
     fn it_has_data() {
         let result = parse_tsv_files();
+        
+        let opening_name = ChessOpeningName {
+            family: "Sicilian Defense".to_owned(),
+            variation: None,
+            sub_variation: None,
+        };
         let opening = Opening {
-            eco: ECO("A00".to_owned()),
-            name: ChessOpeningName {
-                family: "Sicilian Defense".to_owned(),
-                variation: None,
-                sub_variation: None,
-            },
+            eco: ECO("B20".to_owned()),
+            name: opening_name.to_owned(),
             pgn: PgnData {
                 headers: HashMap::new(),
-                moves: vec![],
+                moves: vec!["e4".to_owned(), "c5".to_owned()],
             },
         };
-        let fake_opening = Some(&opening);
-        println!("{result:#?}");
-        assert_eq!(result.unwrap_or_default().last(), fake_opening);
+        let unwrapped_result = result.unwrap();
+        let filtered_result = filter_by_opening_family(opening_name, unwrapped_result);
+        let count = filtered_result.iter().cloned().len();
+        
+        assert_eq!(count, 370);
+        assert_eq!(filtered_result.first().unwrap(), &opening);
     }
 }

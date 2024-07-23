@@ -1,9 +1,9 @@
 [workspace]
 members = [
     "history", 
-    "openings", "pgn",
+    "openings", 
+    "pgn",
     "ui"
 ]
-exclude = ["crates/foo", "path/to/other"]
+exclude = []
 resolver = "2"
-msrv = "1.79.0"
