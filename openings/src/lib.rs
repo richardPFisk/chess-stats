@@ -31,6 +31,10 @@ pub fn parse_tsv_files() -> Result<Vec<Opening>, io::Error> {
 pub fn filter_by_opening_family(opening_filter: ChessOpeningName, openings: Vec<Opening>) -> Vec<Opening> {
     openings.into_iter().filter(|o|{ o.name.family == opening_filter.family }).collect()
 }
+
+pub fn get_families(openings: Vec<Opening>) -> Vec<Opening> {
+    openings.into_iter().filter(|o|{ o.name.sub_variation.is_none() && o.name.variation.is_none() }).collect()
+}
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
@@ -47,7 +51,7 @@ mod tests {
     }
 
     #[test]
-    fn it_has_data() {
+    fn it_has_sicialian_data() {
         let result = parse_tsv_files();
         
         let opening_name = ChessOpeningName {
@@ -69,5 +73,25 @@ mod tests {
         
         assert_eq!(count, 370);
         assert_eq!(filtered_result.first().unwrap(), &opening);
+    }
+
+    #[test]
+    fn test_get_families() {
+        let result = parse_tsv_files();
+        let unwrapped_result = result.unwrap();
+        let filtered_result = get_families(unwrapped_result);
+        let count = filtered_result.iter().cloned().len();
+        
+        assert_eq!(count, 192);
+        assert_eq!(filtered_result.first().unwrap().name,  ChessOpeningName {
+            family: "Amar Opening".to_owned(),
+            variation: None,
+            sub_variation: None,
+        });
+        assert_eq!(filtered_result.last().unwrap().name,  ChessOpeningName {
+            family: "King's Indian Defense".to_owned(),
+            variation: None,
+            sub_variation: None,
+        });
     }
 }
