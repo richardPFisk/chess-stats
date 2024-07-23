@@ -18,19 +18,19 @@ pub struct ECO(pub String);
 #[serde(rename_all = "camelCase")]
 pub struct Opening {
   pub eco: ECO,
-  pub name: ChessOpeningName,
+  pub name: OpeningClassification,
   pub pgn: PgnData,
 }
 
 
 #[derive(PartialEq, Eq, Clone, Debug, Default)]
-pub struct ChessOpeningName {
+pub struct OpeningClassification {
   pub family: String,
   pub variation: Option<String>,
   pub sub_variation: Option<String>,
 }
 
-impl Serialize for ChessOpeningName {
+impl Serialize for OpeningClassification {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -42,21 +42,21 @@ impl Serialize for ChessOpeningName {
     }
 }
 
-impl<'de> Deserialize<'de> for ChessOpeningName {
+impl<'de> Deserialize<'de> for OpeningClassification {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
-        ChessOpeningName::from_string(&s).map_err(serde::de::Error::custom)
+        OpeningClassification::from_string(&s).map_err(serde::de::Error::custom)
     }
 }
 
-impl ChessOpeningName {
+impl OpeningClassification {
  fn from_string(s: &str) -> Result<Self, &'static str> {
       let mut parts = s.split(": ");
       let family = parts.next().ok_or("Missing family")?.to_string();
-      let mut opening = ChessOpeningName{ family, ..Default::default() };
+      let mut opening = OpeningClassification{ family, ..Default::default() };
 
       if let Some(rest) = parts.next() {
           let mut var_parts = rest.split(", ");
@@ -68,7 +68,7 @@ impl ChessOpeningName {
 }
 }
 
-impl fmt::Display for ChessOpeningName {
+impl fmt::Display for OpeningClassification {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.variation {
             Some(variation) => write!(f, "{}: {}", self.family, variation),
