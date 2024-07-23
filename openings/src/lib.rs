@@ -28,7 +28,7 @@ pub fn parse_tsv_files() -> Result<Vec<Opening>, io::Error> {
 }
 
 
-pub fn filter_by_opening_family(opening_filter: OpeningClassification, openings: Vec<Opening>) -> Vec<Opening> {
+pub fn filter_by_opening_classification(opening_filter: OpeningClassification, openings: Vec<Opening>) -> Vec<Opening> {
     openings.into_iter().filter(|o|{ o.name.family == opening_filter.family }).collect()
 }
 
@@ -68,7 +68,7 @@ mod tests {
             },
         };
         let unwrapped_result = result.unwrap();
-        let filtered_result = filter_by_opening_family(opening_name, unwrapped_result);
+        let filtered_result = filter_by_opening_classification(opening_name, unwrapped_result);
         let count = filtered_result.iter().cloned().len();
         
         assert_eq!(count, 370);
