@@ -4,7 +4,7 @@ pub mod models;
 pub mod trie;
 
 use csv::ReaderBuilder;
-use models::{OpeningClassification, Opening};
+use models::{Opening, OpeningClassification};
 
 pub fn read_file(name: &'static str) -> Result<Vec<Opening>, io::Error> {
     let tab_ch = r#"	"#.as_bytes().first().unwrap();
@@ -27,13 +27,21 @@ pub fn parse_tsv_files() -> Result<Vec<Opening>, io::Error> {
     Ok([a_openings, b_openings, c_openings, d_openings, e_openings].concat())
 }
 
-
-pub fn filter_by_opening_classification(opening_filter: OpeningClassification, openings: Vec<Opening>) -> Vec<Opening> {
-    openings.into_iter().filter(|o|{ o.name.family == opening_filter.family }).collect()
+pub fn filter_by_opening_classification(
+    opening_filter: OpeningClassification,
+    openings: Vec<Opening>,
+) -> Vec<Opening> {
+    openings
+        .into_iter()
+        .filter(|o| o.name.family == opening_filter.family)
+        .collect()
 }
 
 pub fn get_families(openings: Vec<Opening>) -> Vec<Opening> {
-    openings.into_iter().filter(|o|{ o.name.sub_variation.is_none() && o.name.variation.is_none() }).collect()
+    openings
+        .into_iter()
+        .filter(|o| o.name.sub_variation.is_none() && o.name.variation.is_none())
+        .collect()
 }
 #[cfg(test)]
 mod tests {
@@ -53,7 +61,7 @@ mod tests {
     #[test]
     fn it_has_sicialian_data() {
         let result = parse_tsv_files();
-        
+
         let opening_name = OpeningClassification {
             family: "Sicilian Defense".to_owned(),
             variation: None,
@@ -70,7 +78,7 @@ mod tests {
         let unwrapped_result = result.unwrap();
         let filtered_result = filter_by_opening_classification(opening_name, unwrapped_result);
         let count = filtered_result.iter().cloned().len();
-        
+
         assert_eq!(count, 370);
         assert_eq!(filtered_result.first().unwrap(), &opening);
     }
@@ -81,17 +89,23 @@ mod tests {
         let unwrapped_result = result.unwrap();
         let filtered_result = get_families(unwrapped_result);
         let count = filtered_result.iter().cloned().len();
-        
+
         assert_eq!(count, 192);
-        assert_eq!(filtered_result.first().unwrap().name,  OpeningClassification {
-            family: "Amar Opening".to_owned(),
-            variation: None,
-            sub_variation: None,
-        });
-        assert_eq!(filtered_result.last().unwrap().name,  OpeningClassification {
-            family: "King's Indian Defense".to_owned(),
-            variation: None,
-            sub_variation: None,
-        });
+        assert_eq!(
+            filtered_result.first().unwrap().name,
+            OpeningClassification {
+                family: "Amar Opening".to_owned(),
+                variation: None,
+                sub_variation: None,
+            }
+        );
+        assert_eq!(
+            filtered_result.last().unwrap().name,
+            OpeningClassification {
+                family: "King's Indian Defense".to_owned(),
+                variation: None,
+                sub_variation: None,
+            }
+        );
     }
 }

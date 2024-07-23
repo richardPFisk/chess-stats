@@ -1,13 +1,13 @@
-use std::collections::HashMap;
 use chess_pgn::models::headers::PgnData;
 use serde::{Deserialize, Serialize};
-use serde::{Serializer, Deserializer};
+use serde::{Deserializer, Serializer};
+use std::collections::HashMap;
 
 use std::fmt;
 #[derive(PartialEq, Eq, Hash, Clone)]
 pub enum Side {
-  White,
-  Black
+    White,
+    Black,
 }
 
 #[derive(PartialEq, Eq, Hash, Clone, Serialize, Deserialize, Debug)]
@@ -17,17 +17,16 @@ pub struct ECO(pub String);
 #[derive(PartialEq, Eq, Clone, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Opening {
-  pub eco: ECO,
-  pub name: OpeningClassification,
-  pub pgn: PgnData,
+    pub eco: ECO,
+    pub name: OpeningClassification,
+    pub pgn: PgnData,
 }
-
 
 #[derive(PartialEq, Eq, Clone, Debug, Default)]
 pub struct OpeningClassification {
-  pub family: String,
-  pub variation: Option<String>,
-  pub sub_variation: Option<String>,
+    pub family: String,
+    pub variation: Option<String>,
+    pub sub_variation: Option<String>,
 }
 
 impl Serialize for OpeningClassification {
@@ -53,19 +52,22 @@ impl<'de> Deserialize<'de> for OpeningClassification {
 }
 
 impl OpeningClassification {
- fn from_string(s: &str) -> Result<Self, &'static str> {
-      let mut parts = s.split(": ");
-      let family = parts.next().ok_or("Missing family")?.to_string();
-      let mut opening = OpeningClassification{ family, ..Default::default() };
+    fn from_string(s: &str) -> Result<Self, &'static str> {
+        let mut parts = s.split(": ");
+        let family = parts.next().ok_or("Missing family")?.to_string();
+        let mut opening = OpeningClassification {
+            family,
+            ..Default::default()
+        };
 
-      if let Some(rest) = parts.next() {
-          let mut var_parts = rest.split(", ");
-          opening.variation = var_parts.next().map(String::from);
-          opening.sub_variation = var_parts.next().map(String::from);
-      }
+        if let Some(rest) = parts.next() {
+            let mut var_parts = rest.split(", ");
+            opening.variation = var_parts.next().map(String::from);
+            opening.sub_variation = var_parts.next().map(String::from);
+        }
 
-      Ok(opening)
-}
+        Ok(opening)
+    }
 }
 
 impl fmt::Display for OpeningClassification {
@@ -78,11 +80,11 @@ impl fmt::Display for OpeningClassification {
 }
 
 pub struct OpeningLookupByEco {
-  pub lookup: HashMap<ECO, Opening>
+    pub lookup: HashMap<ECO, Opening>,
 }
 
 pub struct OpeningLookup {
-  pub lookup: HashMap<(Side, ECO), Opening>
+    pub lookup: HashMap<(Side, ECO), Opening>,
 }
 
 impl Default for OpeningLookup {
@@ -92,17 +94,17 @@ impl Default for OpeningLookup {
 }
 
 impl OpeningLookup {
-  pub fn new() -> Self {
-      OpeningLookup {
-          lookup: HashMap::new()
-      }
-  }
+    pub fn new() -> Self {
+        OpeningLookup {
+            lookup: HashMap::new(),
+        }
+    }
 
-  pub fn insert(&mut self, side: Side, eco: ECO, opening: Opening) {
-      self.lookup.insert((side, eco), opening);
-  }
+    pub fn insert(&mut self, side: Side, eco: ECO, opening: Opening) {
+        self.lookup.insert((side, eco), opening);
+    }
 
-  pub fn get(&self, side: &Side, eco: &ECO) -> Option<&Opening> {
-      self.lookup.get(&(side.clone(), eco.clone()))
-  }
+    pub fn get(&self, side: &Side, eco: &ECO) -> Option<&Opening> {
+        self.lookup.get(&(side.clone(), eco.clone()))
+    }
 }
