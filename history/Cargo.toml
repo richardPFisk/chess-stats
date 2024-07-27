@@ -12,7 +12,6 @@ csv = "1.2.2"
 fp-core = "0.1.9"
 futures = "0.3.28"
 glob = "0.3.1"
-lazy_static = "1.4.0"
 linfa = { version = "0.7.0", features = ["serde", "serde_crate"] }
 linfa-trees = { version = "0.7.0", features = ["serde", "serde_crate"] }
 ndarray = "0.15.6"

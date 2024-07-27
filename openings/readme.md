@@ -6,8 +6,8 @@ Use https://database.lichess.org/
 
 * create structure useful for looking up:
   * family
-    * get all families
-    * filter by family
+    * ~~get all families~~
+    * ~~filter by family~~
     * lookup by moves
     * lookup by names
   * is black/white opening
@@ -21,9 +21,9 @@ Use https://database.lichess.org/
   * aggqregate opening performance
 
 ## Next steps
-* parse tsv
+* ~~parse tsv~~
   * group by family
-  * key by eco code
+  * key by eco code??
   * determine black or white opening
 * design data structure(s)
   * key by black/white first?
@@ -38,5 +38,7 @@ Use https://database.lichess.org/
   * book games
     * worst games
     * best games
+
+heatmap idea: are arrows with a colour gradient better than squares with a background gradient?
 
 ## Fastest way to something useful and compelling

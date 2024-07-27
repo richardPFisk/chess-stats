@@ -1,15 +1,12 @@
-use lazy_static::lazy_static;
+use std::sync::LazyLock;
+
 use regex::Regex;
 use fp_core::chain::Chain;
 
 use crate::models::{opening::{Opening, Side}, CompletedGame};
 
-lazy_static! {
-    static ref SHORT_OPENING_RE: Regex =
-        Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"0-9]*)"#).unwrap();
-    static ref LONG_OPENING_RE: Regex =
-        Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap();
-}
+static SHORT_OPENING_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"0-9]*)"#).unwrap());
+static LONG_OPENING_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap());
 
 pub fn opening(input: &str, use_short_opening: bool) -> Option<String> {
     let re: &Regex = if use_short_opening { &SHORT_OPENING_RE } else { &LONG_OPENING_RE };
