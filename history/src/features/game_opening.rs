@@ -6,7 +6,7 @@ use fp_core::chain::Chain;
 use crate::models::{opening::{Opening, Side}, CompletedGame};
 
 static SHORT_OPENING_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"0-9]*)"#).unwrap());
-static LONG_OPENING_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"]*)"#).unwrap());
+static LONG_OPENING_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"https://www.chess.com/openings/(?P<opening>[^"\]]*)"#).unwrap());
 
 pub fn opening(input: &str, use_short_opening: bool) -> Option<String> {
     let re: &Regex = if use_short_opening { &SHORT_OPENING_RE } else { &LONG_OPENING_RE };
@@ -89,7 +89,8 @@ mod tests {
 
       // Test get_all_openings function
       let openings = get_all_openings("yab123", &[game]);
-
+      let first_opening = &openings[0];
+      println!("{first_opening:#?}");
       // Assert the result
       assert_eq!(openings.len(), 1);
       assert_eq!(openings[0], Opening {

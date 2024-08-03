@@ -8,12 +8,13 @@ name = "chess-ui"
 default_platform = "web"
 
 # `build` & `serve` dist path
-out_dir = "dist"
+out_dir = "docs"
 
 # resource (assets) file folder
 asset_dir = "assets"
 
 [web.app]
+base_path = "richardPFisk/chess-stats/ui"
 
 # HTML title tag content
 title = "chess-ui"
