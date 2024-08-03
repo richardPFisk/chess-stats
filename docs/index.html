@@ -10,8 +10,8 @@
 <body>
   <div id="main"></div>
   <script type="module">
-    import init from "/richardPFisk/chess-stats/ui/assets/dioxus/chess-ui.js";
-    init("/richardPFisk/chess-stats/ui/assets/dioxus/chess-ui_bg.wasm").then(wasm => {
+    import init from "/./assets/dioxus/chess-ui.js";
+    init("/./assets/dioxus/chess-ui_bg.wasm").then(wasm => {
       if (wasm.__wbindgen_start == undefined) {
         wasm.main();
       }
